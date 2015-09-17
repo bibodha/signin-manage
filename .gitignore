@@ -1,0 +1,8 @@
+node_modules/
+
+*.0
+*.ns
+journal/
+*.lock
+
+*.log
