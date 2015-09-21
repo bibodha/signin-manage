@@ -21340,16 +21340,95 @@
 	                            _react2["default"].createElement(
 	                                "h4",
 	                                { className: "modal-title" },
-	                                "Modal title"
+	                                "Add Kid"
 	                            )
 	                        ),
 	                        _react2["default"].createElement(
 	                            "div",
 	                            { className: "modal-body" },
 	                            _react2["default"].createElement(
-	                                "p",
+	                                "form",
 	                                null,
-	                                "One fine body…"
+	                                _react2["default"].createElement(
+	                                    "div",
+	                                    { className: "form-group" },
+	                                    _react2["default"].createElement(
+	                                        "label",
+	                                        { "for": "firstName" },
+	                                        "First Name"
+	                                    ),
+	                                    _react2["default"].createElement("input", { type: "text", className: "form-control", id: "firstName", placeholder: "First Name" })
+	                                ),
+	                                _react2["default"].createElement(
+	                                    "div",
+	                                    { className: "form-group" },
+	                                    _react2["default"].createElement(
+	                                        "label",
+	                                        { "for": "lastName" },
+	                                        "Last Name"
+	                                    ),
+	                                    _react2["default"].createElement("input", { type: "text", className: "form-control", id: "lastName", placeholder: "Last Name" })
+	                                ),
+	                                _react2["default"].createElement(
+	                                    "div",
+	                                    { className: "form-group" },
+	                                    _react2["default"].createElement(
+	                                        "label",
+	                                        { "for": "street" },
+	                                        "Street"
+	                                    ),
+	                                    _react2["default"].createElement("input", { type: "text", className: "form-control", id: "street", placeholder: "Street" })
+	                                ),
+	                                _react2["default"].createElement(
+	                                    "div",
+	                                    { className: "form-group" },
+	                                    _react2["default"].createElement(
+	                                        "label",
+	                                        { "for": "city" },
+	                                        "City"
+	                                    ),
+	                                    _react2["default"].createElement("input", { type: "text", className: "form-control", id: "city", placeholder: "City" })
+	                                ),
+	                                _react2["default"].createElement(
+	                                    "div",
+	                                    { className: "form-group" },
+	                                    _react2["default"].createElement(
+	                                        "label",
+	                                        { "for": "state" },
+	                                        "State"
+	                                    ),
+	                                    _react2["default"].createElement("input", { type: "text", className: "form-control", id: "state", placeholder: "State" })
+	                                ),
+	                                _react2["default"].createElement(
+	                                    "div",
+	                                    { className: "form-group" },
+	                                    _react2["default"].createElement(
+	                                        "label",
+	                                        { "for": "zip" },
+	                                        "Zip"
+	                                    ),
+	                                    _react2["default"].createElement("input", { type: "text", className: "form-control", id: "zip", placeholder: "Zip" })
+	                                ),
+	                                _react2["default"].createElement(
+	                                    "div",
+	                                    { className: "form-group" },
+	                                    _react2["default"].createElement(
+	                                        "label",
+	                                        { "for": "dateOfBirth" },
+	                                        "Date Of Birth"
+	                                    ),
+	                                    _react2["default"].createElement("input", { type: "text", className: "form-control", id: "dateOfBirth", placeholder: "Date Of Birth" })
+	                                ),
+	                                _react2["default"].createElement(
+	                                    "div",
+	                                    { className: "form-group" },
+	                                    _react2["default"].createElement(
+	                                        "label",
+	                                        { "for": "school" },
+	                                        "School"
+	                                    ),
+	                                    _react2["default"].createElement("input", { type: "text", className: "form-control", id: "school", placeholder: "School" })
+	                                )
 	                            )
 	                        ),
 	                        _react2["default"].createElement(
