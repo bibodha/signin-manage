@@ -47,212 +47,247 @@
   \*****************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 	
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 	
-	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
 	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
 	var _react = __webpack_require__(/*! react */ 1);
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var SigninBox = (function (_React$Component) {
-	    _inherits(SigninBox, _React$Component);
+	var _componentsNavbarJsx = __webpack_require__(/*! ./components/navbar.jsx */ 157);
 	
-	    function SigninBox() {
-	        _classCallCheck(this, SigninBox);
+	var _componentsNavbarJsx2 = _interopRequireDefault(_componentsNavbarJsx);
 	
-	        _get(Object.getPrototypeOf(SigninBox.prototype), "constructor", this).apply(this, arguments);
+	var _componentsModalsJsx = __webpack_require__(/*! ./components/modals.jsx */ 158);
+	
+	var GridBox = (function (_React$Component) {
+	    _inherits(GridBox, _React$Component);
+	
+	    function GridBox() {
+	        _classCallCheck(this, GridBox);
+	
+	        _get(Object.getPrototypeOf(GridBox.prototype), 'constructor', this).call(this);
+	        this.state = { data: [] };
 	    }
 	
-	    _createClass(SigninBox, [{
-	        key: "render",
+	    _createClass(GridBox, [{
+	        key: 'componentDidMount',
+	        value: function componentDidMount() {
+	            var _this = this;
+	
+	            $.ajax({
+	                url: '/kids/',
+	                dataType: 'json',
+	                type: 'GET',
+	                success: (function (data) {
+	                    _this.setState({
+	                        data: data
+	                    });
+	                }).bind(this),
+	                error: (function (xhr, status, err) {
+	                    console.error('/kids/', status, err.toString());
+	                }).bind(this)
+	            });
+	        }
+	    }, {
+	        key: 'render',
 	        value: function render() {
-	            return _react2["default"].createElement(
-	                "div",
+	            return _react2['default'].createElement(
+	                'div',
 	                null,
-	                _react2["default"].createElement(NavBar, null),
-	                _react2["default"].createElement(Grid, null)
+	                _react2['default'].createElement(_componentsNavbarJsx2['default'], null),
+	                _react2['default'].createElement(
+	                    'button',
+	                    { className: 'btn btn-primary', 'data-toggle': 'modal', 'data-target': '#addModal' },
+	                    'Add'
+	                ),
+	                _react2['default'].createElement(_componentsModalsJsx.AddModal, null),
+	                _react2['default'].createElement(GridList, { kids: this.state.data })
 	            );
 	        }
 	    }]);
 	
-	    return SigninBox;
-	})(_react2["default"].Component);
+	    return GridBox;
+	})(_react2['default'].Component);
 	
-	var NavBar = (function (_React$Component2) {
-	    _inherits(NavBar, _React$Component2);
+	var GridList = (function (_React$Component2) {
+	    _inherits(GridList, _React$Component2);
 	
-	    function NavBar() {
-	        _classCallCheck(this, NavBar);
+	    function GridList() {
+	        _classCallCheck(this, GridList);
 	
-	        _get(Object.getPrototypeOf(NavBar.prototype), "constructor", this).apply(this, arguments);
+	        _get(Object.getPrototypeOf(GridList.prototype), 'constructor', this).apply(this, arguments);
 	    }
 	
-	    _createClass(NavBar, [{
-	        key: "render",
+	    _createClass(GridList, [{
+	        key: 'render',
 	        value: function render() {
-	            return _react2["default"].createElement(
-	                "nav",
-	                { className: "navbar navbar-default" },
-	                _react2["default"].createElement(
-	                    "div",
-	                    { className: "container-fluid" },
-	                    _react2["default"].createElement(
-	                        "div",
-	                        { className: "navbar-header" },
-	                        _react2["default"].createElement(
-	                            "button",
-	                            { type: "button", className: "navbar-toggle collapsed", "data-toggle": "collapse", "data-target": "#bs-example-navbar-collapse-1" },
-	                            _react2["default"].createElement(
-	                                "span",
-	                                { className: "sr-only" },
-	                                "Toggle navigation"
-	                            ),
-	                            _react2["default"].createElement("span", { className: "icon-bar" }),
-	                            _react2["default"].createElement("span", { className: "icon-bar" }),
-	                            _react2["default"].createElement("span", { className: "icon-bar" })
+	            var _this2 = this;
+	
+	            var items = this.props.kids.map(function (item) {
+	                return _react2['default'].createElement(GridItem, { edit: _this2.props.edit, 'delete': _this2.props['delete'], data: _this2.props.kids });
+	            });
+	            return _react2['default'].createElement(
+	                'table',
+	                { className: 'table table-striped table-hover' },
+	                _react2['default'].createElement(
+	                    'thead',
+	                    null,
+	                    _react2['default'].createElement(
+	                        'tr',
+	                        null,
+	                        _react2['default'].createElement(
+	                            'th',
+	                            null,
+	                            'First Name'
 	                        ),
-	                        _react2["default"].createElement(
-	                            "a",
-	                            { className: "navbar-brand", href: "#" },
-	                            "Sign In"
-	                        )
-	                    ),
-	                    _react2["default"].createElement(
-	                        "div",
-	                        { className: "collapse navbar-collapse", id: "bs-example-navbar-collapse-1" },
-	                        _react2["default"].createElement(
-	                            "ul",
-	                            { className: "nav navbar-nav" },
-	                            _react2["default"].createElement(
-	                                "li",
-	                                { className: "active" },
-	                                _react2["default"].createElement(
-	                                    "a",
-	                                    { href: "#" },
-	                                    "Kids",
-	                                    _react2["default"].createElement(
-	                                        "span",
-	                                        { className: "sr-only" },
-	                                        "(current)"
-	                                    )
-	                                )
-	                            ),
-	                            _react2["default"].createElement(
-	                                "li",
-	                                null,
-	                                _react2["default"].createElement(
-	                                    "a",
-	                                    { href: "#" },
-	                                    "Report"
-	                                )
-	                            )
+	                        _react2['default'].createElement(
+	                            'th',
+	                            null,
+	                            'Last Name'
 	                        ),
-	                        _react2["default"].createElement(
-	                            "ul",
-	                            { className: "nav navbar-nav navbar-right" },
-	                            _react2["default"].createElement(
-	                                "li",
-	                                { className: "dropdown" },
-	                                _react2["default"].createElement(
-	                                    "a",
-	                                    { href: "#", className: "dropdown-toggle", "data-toggle": "dropdown", role: "button", "aria-expanded": "false" },
-	                                    "User",
-	                                    _react2["default"].createElement("span", { className: "caret" })
-	                                ),
-	                                _react2["default"].createElement(
-	                                    "ul",
-	                                    { className: "dropdown-menu", role: "menu" },
-	                                    _react2["default"].createElement(
-	                                        "li",
-	                                        null,
-	                                        _react2["default"].createElement(
-	                                            "a",
-	                                            { href: "/logout" },
-	                                            "Logout"
-	                                        )
-	                                    ),
-	                                    _react2["default"].createElement(
-	                                        "li",
-	                                        null,
-	                                        _react2["default"].createElement(
-	                                            "a",
-	                                            { href: "/account" },
-	                                            "Account"
-	                                        )
-	                                    )
-	                                )
-	                            )
+	                        _react2['default'].createElement(
+	                            'th',
+	                            null,
+	                            'Username'
+	                        ),
+	                        _react2['default'].createElement(
+	                            'th',
+	                            null,
+	                            'Street'
+	                        ),
+	                        _react2['default'].createElement(
+	                            'th',
+	                            null,
+	                            'City'
+	                        ),
+	                        _react2['default'].createElement(
+	                            'th',
+	                            null,
+	                            'State'
+	                        ),
+	                        _react2['default'].createElement(
+	                            'th',
+	                            null,
+	                            'Zip'
+	                        ),
+	                        _react2['default'].createElement(
+	                            'th',
+	                            null,
+	                            'Gender'
+	                        ),
+	                        _react2['default'].createElement(
+	                            'th',
+	                            null,
+	                            'School'
+	                        ),
+	                        _react2['default'].createElement(
+	                            'th',
+	                            null,
+	                            'Action'
 	                        )
+	                    )
+	                ),
+	                _react2['default'].createElement(
+	                    'tbody',
+	                    null,
+	                    _react2['default'].createElement(
+	                        'div',
+	                        { className: 'itemList' },
+	                        items
 	                    )
 	                )
 	            );
 	        }
 	    }]);
 	
-	    return NavBar;
-	})(_react2["default"].Component);
+	    return GridList;
+	})(_react2['default'].Component);
 	
-	var Grid = (function (_React$Component3) {
-	    _inherits(Grid, _React$Component3);
+	var GridItem = (function (_React$Component3) {
+	    _inherits(GridItem, _React$Component3);
 	
-	    function Grid() {
-	        _classCallCheck(this, Grid);
+	    function GridItem() {
+	        _classCallCheck(this, GridItem);
 	
-	        _get(Object.getPrototypeOf(Grid.prototype), "constructor", this).apply(this, arguments);
+	        _get(Object.getPrototypeOf(GridItem.prototype), 'constructor', this).apply(this, arguments);
 	    }
 	
-	    _createClass(Grid, [{
-	        key: "render",
+	    _createClass(GridItem, [{
+	        key: 'render',
 	        value: function render() {
-	            return _react2["default"].createElement(
-	                "div",
+	            _react2['default'].createElement(
+	                'tr',
 	                null,
-	                _react2["default"].createElement(
-	                    "div",
+	                _react2['default'].createElement(
+	                    'td',
 	                    null,
-	                    "I am a grid",
-	                    _react2["default"].createElement(GridRow, null)
+	                    'Mark'
+	                ),
+	                _react2['default'].createElement(
+	                    'td',
+	                    null,
+	                    'Otto'
+	                ),
+	                _react2['default'].createElement(
+	                    'td',
+	                    null,
+	                    'Mark Otto'
+	                ),
+	                _react2['default'].createElement(
+	                    'td',
+	                    null,
+	                    '123 Some Street'
+	                ),
+	                _react2['default'].createElement(
+	                    'td',
+	                    null,
+	                    'Salt Lake City'
+	                ),
+	                _react2['default'].createElement(
+	                    'td',
+	                    null,
+	                    'UT'
+	                ),
+	                _react2['default'].createElement(
+	                    'td',
+	                    null,
+	                    '84111'
+	                ),
+	                _react2['default'].createElement(
+	                    'td',
+	                    null,
+	                    'Male'
+	                ),
+	                _react2['default'].createElement(
+	                    'td',
+	                    null,
+	                    'East High School'
+	                ),
+	                _react2['default'].createElement(
+	                    'td',
+	                    null,
+	                    _react2['default'].createElement('span', { className: 'glyphicon glyphicon-edit' }),
+	                    '  ',
+	                    _react2['default'].createElement('span', { className: 'glyphicon glyphicon-trash' })
 	                )
 	            );
 	        }
 	    }]);
 	
-	    return Grid;
-	})(_react2["default"].Component);
+	    return GridItem;
+	})(_react2['default'].Component);
 	
-	var GridRow = (function (_React$Component4) {
-	    _inherits(GridRow, _React$Component4);
-	
-	    function GridRow() {
-	        _classCallCheck(this, GridRow);
-	
-	        _get(Object.getPrototypeOf(GridRow.prototype), "constructor", this).apply(this, arguments);
-	    }
-	
-	    _createClass(GridRow, [{
-	        key: "render",
-	        value: function render() {
-	            return _react2["default"].createElement(
-	                "div",
-	                null,
-	                "I am a grid Row"
-	            );
-	        }
-	    }]);
-	
-	    return GridRow;
-	})(_react2["default"].Component);
-	
-	_react2["default"].render(_react2["default"].createElement(SigninBox, null), document.getElementById('content'));
+	_react2['default'].render(_react2['default'].createElement(GridBox, null), document.getElementById('content'));
 
 /***/ },
 /* 1 */
@@ -21097,6 +21132,250 @@
 	module.exports = onlyChild;
 	
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! (webpack)/~/node-libs-browser/~/process/browser.js */ 3)))
+
+/***/ },
+/* 157 */
+/*!******************************************************!*\
+  !*** ./public/javascripts/src/components/navbar.jsx ***!
+  \******************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var NavBar = (function (_React$Component) {
+	    _inherits(NavBar, _React$Component);
+	
+	    function NavBar() {
+	        _classCallCheck(this, NavBar);
+	
+	        _get(Object.getPrototypeOf(NavBar.prototype), "constructor", this).apply(this, arguments);
+	    }
+	
+	    _createClass(NavBar, [{
+	        key: "render",
+	        value: function render() {
+	            return _react2["default"].createElement(
+	                "nav",
+	                { className: "navbar navbar-default" },
+	                _react2["default"].createElement(
+	                    "div",
+	                    { className: "container-fluid" },
+	                    _react2["default"].createElement(
+	                        "div",
+	                        { className: "navbar-header" },
+	                        _react2["default"].createElement(
+	                            "button",
+	                            { type: "button", className: "navbar-toggle collapsed", "data-toggle": "collapse", "data-target": "#bs-example-navbar-collapse-1" },
+	                            _react2["default"].createElement(
+	                                "span",
+	                                { className: "sr-only" },
+	                                "Toggle navigation"
+	                            ),
+	                            _react2["default"].createElement("span", { className: "icon-bar" }),
+	                            _react2["default"].createElement("span", { className: "icon-bar" }),
+	                            _react2["default"].createElement("span", { className: "icon-bar" })
+	                        ),
+	                        _react2["default"].createElement(
+	                            "a",
+	                            { className: "navbar-brand", href: "#" },
+	                            "Sign In"
+	                        )
+	                    ),
+	                    _react2["default"].createElement(
+	                        "div",
+	                        { className: "collapse navbar-collapse", id: "bs-example-navbar-collapse-1" },
+	                        _react2["default"].createElement(
+	                            "ul",
+	                            { className: "nav navbar-nav" },
+	                            _react2["default"].createElement(
+	                                "li",
+	                                { className: "active" },
+	                                _react2["default"].createElement(
+	                                    "a",
+	                                    { href: "#" },
+	                                    "Kids",
+	                                    _react2["default"].createElement(
+	                                        "span",
+	                                        { className: "sr-only" },
+	                                        "(current)"
+	                                    )
+	                                )
+	                            ),
+	                            _react2["default"].createElement(
+	                                "li",
+	                                null,
+	                                _react2["default"].createElement(
+	                                    "a",
+	                                    { href: "#" },
+	                                    "Report"
+	                                )
+	                            )
+	                        ),
+	                        _react2["default"].createElement(
+	                            "ul",
+	                            { className: "nav navbar-nav navbar-right" },
+	                            _react2["default"].createElement(
+	                                "li",
+	                                { className: "dropdown" },
+	                                _react2["default"].createElement(
+	                                    "a",
+	                                    { href: "#", className: "dropdown-toggle", "data-toggle": "dropdown", role: "button", "aria-expanded": "false" },
+	                                    "User",
+	                                    _react2["default"].createElement("span", { className: "caret" })
+	                                ),
+	                                _react2["default"].createElement(
+	                                    "ul",
+	                                    { className: "dropdown-menu", role: "menu" },
+	                                    _react2["default"].createElement(
+	                                        "li",
+	                                        null,
+	                                        _react2["default"].createElement(
+	                                            "a",
+	                                            { href: "/logout" },
+	                                            "Logout"
+	                                        )
+	                                    ),
+	                                    _react2["default"].createElement(
+	                                        "li",
+	                                        null,
+	                                        _react2["default"].createElement(
+	                                            "a",
+	                                            { href: "/account" },
+	                                            "Account"
+	                                        )
+	                                    )
+	                                )
+	                            )
+	                        )
+	                    )
+	                )
+	            );
+	        }
+	    }]);
+	
+	    return NavBar;
+	})(_react2["default"].Component);
+	
+	exports["default"] = NavBar;
+	module.exports = exports["default"];
+
+/***/ },
+/* 158 */
+/*!******************************************************!*\
+  !*** ./public/javascripts/src/components/modals.jsx ***!
+  \******************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var AddModal = (function (_React$Component) {
+	    _inherits(AddModal, _React$Component);
+	
+	    function AddModal() {
+	        _classCallCheck(this, AddModal);
+	
+	        _get(Object.getPrototypeOf(AddModal.prototype), "constructor", this).apply(this, arguments);
+	    }
+	
+	    _createClass(AddModal, [{
+	        key: "render",
+	        value: function render() {
+	            return _react2["default"].createElement(
+	                "div",
+	                { className: "modal fade", id: "addModal" },
+	                _react2["default"].createElement(
+	                    "div",
+	                    { className: "modal-dialog" },
+	                    _react2["default"].createElement(
+	                        "div",
+	                        { className: "modal-content" },
+	                        _react2["default"].createElement(
+	                            "div",
+	                            { className: "modal-header" },
+	                            _react2["default"].createElement(
+	                                "button",
+	                                { type: "button", className: "close", "data-dismiss": "modal", "aria-label": "Close" },
+	                                _react2["default"].createElement(
+	                                    "span",
+	                                    { "aria-hidden": "true" },
+	                                    "×"
+	                                )
+	                            ),
+	                            _react2["default"].createElement(
+	                                "h4",
+	                                { className: "modal-title" },
+	                                "Modal title"
+	                            )
+	                        ),
+	                        _react2["default"].createElement(
+	                            "div",
+	                            { className: "modal-body" },
+	                            _react2["default"].createElement(
+	                                "p",
+	                                null,
+	                                "One fine body…"
+	                            )
+	                        ),
+	                        _react2["default"].createElement(
+	                            "div",
+	                            { className: "modal-footer" },
+	                            _react2["default"].createElement(
+	                                "button",
+	                                { type: "button", className: "btn btn-default", "data-dismiss": "modal" },
+	                                "Close"
+	                            ),
+	                            _react2["default"].createElement(
+	                                "button",
+	                                { type: "button", className: "btn btn-primary" },
+	                                "Save changes"
+	                            )
+	                        )
+	                    )
+	                )
+	            );
+	        }
+	    }]);
+	
+	    return AddModal;
+	})(_react2["default"].Component);
+	
+	exports.AddModal = AddModal;
 
 /***/ }
 /******/ ]);

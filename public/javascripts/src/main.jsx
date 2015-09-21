@@ -1,71 +1,92 @@
 import React from 'react';
+import NavBar from './components/navbar.jsx';
+import {AddModal} from './components/modals.jsx';
 
-class SigninBox extends React.Component {
+class GridBox extends React.Component {
+    constructor() {
+        super();
+        this.state = {data: []}
+    }
+
+    componentDidMount() {
+        $.ajax({
+            url: '/kids/',
+            dataType: 'json',
+            type: 'GET',
+            success: data => {
+                this.setState({
+                    data: data
+                });
+            }.bind(this),
+            error: (xhr, status, err) => {
+                console.error('/kids/', status, err.toString());
+            }.bind(this)
+        })
+    }
+
     render() {
         return (
             <div>
                 <NavBar />
-                <Grid />
+                <button className="btn btn-primary" data-toggle="modal" data-target="#addModal">Add</button>
+                <AddModal />
+                <GridList kids={this.state.data}/>
             </div>
         );
     }
 }
 
-class NavBar extends React.Component {
-   render() {
-       return (
-           <nav className="navbar navbar-default">
-               <div className="container-fluid">
-                   <div className="navbar-header">
-                       <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                           <span className="sr-only">Toggle navigation</span>
-                           <span className="icon-bar"></span>
-                           <span className="icon-bar"></span>
-                           <span className="icon-bar"></span>
-                       </button>
-                       <a className="navbar-brand" href="#">Sign In</a>
-                   </div>
-
-                   <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                       <ul className="nav navbar-nav">
-                           <li className="active"><a href="#">Kids<span className="sr-only">(current)</span></a></li>
-                           <li><a href="#">Report</a></li>
-                       </ul>
-                       <ul className="nav navbar-nav navbar-right">
-                           <li className="dropdown">
-                               <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">User<span className="caret"></span></a>
-                               <ul className="dropdown-menu" role="menu">
-                                   <li><a href="/logout">Logout</a></li>
-                                   <li><a href="/account">Account</a></li>
-                               </ul>
-                           </li>
-                       </ul>
-                   </div>
-               </div>
-           </nav>
-        );
-   }
-}
-
-class Grid extends React.Component {
+class GridList extends React.Component {
     render() {
+        let items = this.props.kids.map(item => {
+            return (
+                <GridItem edit={this.props.edit} delete={this.props.delete} data={this.props.kids} />
+            );
+        });
         return (
-            <div>
-                <div>
-                    I am a grid
-                    <GridRow />
-                </div>
-            </div>
+            <table className="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Username</th>
+                        <th>Street</th>
+                        <th>City</th>
+                        <th>State</th>
+                        <th>Zip</th>
+                        <th>Gender</th>
+                        <th>School</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <div className="itemList">
+                        {items}
+                    </div>
+                </tbody>
+            </table>
         );
     }
 }
 
-class GridRow extends React.Component {
+class GridItem extends React.Component {
     render() {
-        return (
-            <div>I am a grid Row</div>
-        );
+        <tr>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td>Mark Otto</td>
+            <td>123 Some Street</td>
+            <td>Salt Lake City</td>
+            <td>UT</td>
+            <td>84111</td>
+            <td>Male</td>
+            <td>East High School</td>
+            <td>
+                <span className="glyphicon glyphicon-edit"></span>&nbsp;&nbsp;
+                <span className="glyphicon glyphicon-trash"></span>
+            </td>
+        </tr>
     }
 }
 
-React.render(<SigninBox />, document.getElementById('content'));
+React.render(<GridBox/>, document.getElementById('content'));

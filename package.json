@@ -3,9 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
+    "start": "node --debug ./bin/www",
     "debug": "nodemon --debug",
-    "mongo": "mongod --dbpath /data/db/"
+    "mongo": "mongod --dbpath data/db/",
+    "webpack": "webpack --watch --progress --colors -d"
   },
   "dependencies": {
     "body-parser": "~1.13.2",

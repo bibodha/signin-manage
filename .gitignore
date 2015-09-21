@@ -4,6 +4,7 @@ node_modules/
 *.ns
 journal/
 *.lock
+*.bson
 
 *.log
 
