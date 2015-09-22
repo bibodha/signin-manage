@@ -1,11 +1,13 @@
 import React from 'react';
 import NavBar from './components/navbar.jsx';
 import {AddModal} from './components/modals.jsx';
+import Signin from './signin.js';
 
 class GridBox extends React.Component {
     constructor() {
         super();
-        this.state = {data: []}
+        let signin = new Signin();
+        this.state = {data: signin.getKids()}
     }
 
     componentDidMount() {

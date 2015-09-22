@@ -69,6 +69,10 @@
 	
 	var _componentsModalsJsx = __webpack_require__(/*! ./components/modals.jsx */ 158);
 	
+	var _signinJs = __webpack_require__(/*! ./signin.js */ 159);
+	
+	var _signinJs2 = _interopRequireDefault(_signinJs);
+	
 	var GridBox = (function (_React$Component) {
 	    _inherits(GridBox, _React$Component);
 	
@@ -76,7 +80,8 @@
 	        _classCallCheck(this, GridBox);
 	
 	        _get(Object.getPrototypeOf(GridBox.prototype), 'constructor', this).call(this);
-	        this.state = { data: [] };
+	        var signin = new _signinJs2['default']();
+	        this.state = { data: signin.getKids() };
 	    }
 	
 	    _createClass(GridBox, [{
@@ -21441,7 +21446,7 @@
 	                            ),
 	                            _react2["default"].createElement(
 	                                "button",
-	                                { type: "button", className: "btn btn-primary" },
+	                                { type: "button", onClick: this.props.addKid, className: "btn btn-primary" },
 	                                "Save changes"
 	                            )
 	                        )
@@ -21455,6 +21460,46 @@
 	})(_react2["default"].Component);
 	
 	exports.AddModal = AddModal;
+
+/***/ },
+/* 159 */
+/*!******************************************!*\
+  !*** ./public/javascripts/src/signin.js ***!
+  \******************************************/
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, '__esModule', {
+	    value: true
+	});
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+	
+	var Signin = (function () {
+	    function Signin() {
+	        _classCallCheck(this, Signin);
+	    }
+	
+	    _createClass(Signin, [{
+	        key: 'addKid',
+	        value: function addKid() {
+	            var firstName = $('#firstName').val();
+	        }
+	    }, {
+	        key: 'getKids',
+	        value: function getKids() {
+	            return [];
+	        }
+	    }]);
+	
+	    return Signin;
+	})();
+	
+	exports['default'] = Signin;
+	module.exports = exports['default'];
 
 /***/ }
 /******/ ]);
