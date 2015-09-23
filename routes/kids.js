@@ -26,6 +26,7 @@ router.post('/add', (req, res, next) => {
         state : item.state,
         zip : item.zip,
         dateOfBirth : item.dateOfBirth,
+        gender: item.gender,
         school : item.school
     });
 

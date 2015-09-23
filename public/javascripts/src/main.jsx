@@ -1,26 +1,67 @@
 import React from 'react';
 import NavBar from './components/navbar.jsx';
 import {AddModal} from './components/modals.jsx';
-import Signin from './signin.js';
 
 class GridBox extends React.Component {
     constructor() {
         super();
+        this.addKid = this.addKid.bind(this);
         this.state = {data: []}
     }
 
     componentDidMount() {
-        let signin = new Signin();
-        signin.getKids();
+        var p = new Promise((resolve, reject) => {
+            this.getKids(data => {
+                return resolve(data);
+            });
+        });
+        p.then(data => {
+            this.setState({data: data});
+        });
+    }
+
+    getKids(done) {
+        $.ajax({
+            url: '/kids/',
+            dataType: 'json',
+            type: 'GET',
+            success: data => {
+                return done(data);
+            },
+            error: (xhr, status, err) => {
+                console.error('/kids/', status, err.toString());
+            }
+        });
     }
 
     addKid() {
-        let signin = new Signin();
-        let kids = signin.addKid();
-        if(kids.length !== 0) {
-            this.setState({data : kids});
-            $('#addModal').modal('hide');
-        }
+        let kid = {
+            firstName : $('#firstName').val(),
+            lastName : $('#lastName').val(),
+            street : $('#street').val(),
+            city : $('#city').val(),
+            state : $('#state').val(),
+            zip : $('#zip').val(),
+            dateOfBirth : $('#dateOfBirth').val(),
+            gender: $('#gender').val(),
+            school : $('#school').val()
+        };
+
+        $.ajax({
+            url: '/kids/add',
+            dataType: 'json',
+            type: 'POST',
+            data: kid,
+            success: data => {
+                var oldState = this.state.data;
+                oldState.push(data);
+                this.setState({data: oldState});
+                $('#addModal').modal('hide');
+            }.bind(this),
+            error: (xhr, status, err) => {
+                console.error('/kids/add', status, err.toString());
+            }.bind(this)
+        });
     }
 
     render() {
@@ -39,7 +80,7 @@ class GridList extends React.Component {
     render() {
         let items = this.props.kids.map(kid=> {
             return (
-                <GridItem edit={this.props.edit} delete={this.props.delete} data={this.props.kid} />
+                <GridItem edit={this.props.edit} delete={this.props.delete} data={kid} key={kid._id} />
             );
         });
         return (
@@ -59,9 +100,7 @@ class GridList extends React.Component {
                     </tr>
                 </thead>
                 <tbody>
-                    <div className="itemList">
-                        {items}
-                    </div>
+                    {items}
                 </tbody>
             </table>
         );
@@ -72,10 +111,10 @@ class GridItem extends React.Component {
     render() {
         return(
             <tr>
-                <td>{this.props.data.firstName}</td>
-                <td>{this.props.data.lastName}</td>
+                <td>{this.props.data.firstname}</td>
+                <td>{this.props.data.lastname}</td>
                 <td>{this.props.data.userName}</td>
-                <td>{this.props.data.streetName}</td>
+                <td>{this.props.data.street}</td>
                 <td>{this.props.data.city}</td>
                 <td>{this.props.data.state}</td>
                 <td>{this.props.data.zip}</td>

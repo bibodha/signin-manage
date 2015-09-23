@@ -13,35 +13,39 @@ export class AddModal extends React.Component {
                         <div className="modal-body">
                             <form>
                                 <div className="form-group">
-                                    <label for="firstName">First Name</label>
+                                    <label htmlFor="firstName">First Name</label>
                                     <input type="text" className="form-control" id="firstName" placeholder="First Name"/>
                                 </div>
                                 <div className="form-group">
-                                    <label for="lastName">Last Name</label>
+                                    <label htmlFor="lastName">Last Name</label>
                                     <input type="text" className="form-control" id="lastName" placeholder="Last Name"/>
                                 </div>
                                 <div className="form-group">
-                                    <label for="street">Street</label>
+                                    <label htmlFor="street">Street</label>
                                     <input type="text" className="form-control" id="street" placeholder="Street"/>
                                 </div>
                                 <div className="form-group">
-                                    <label for="city">City</label>
+                                    <label htmlFor="city">City</label>
                                     <input type="text" className="form-control" id="city" placeholder="City"/>
                                 </div>
                                 <div className="form-group">
-                                    <label for="state">State</label>
+                                    <label htmlFor="state">State</label>
                                     <input type="text" className="form-control" id="state" placeholder="State"/>
                                 </div>
                                 <div className="form-group">
-                                    <label for="zip">Zip</label>
+                                    <label htmlFor="zip">Zip</label>
                                     <input type="text" className="form-control" id="zip" placeholder="Zip"/>
                                 </div>
                                 <div className="form-group">
-                                    <label for="dateOfBirth">Date Of Birth</label>
+                                    <label htmlFor="dateOfBirth">Date Of Birth</label>
                                     <input type="text" className="form-control" id="dateOfBirth" placeholder="Date Of Birth"/>
                                 </div>
                                 <div className="form-group">
-                                    <label for="school">School</label>
+                                    <label htmlFor="gender">Gender</label>
+                                    <input type="text" className="form-control" id="gender" placeholder="Gender"/>
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="school">School</label>
                                     <input type="text" className="form-control" id="school" placeholder="School"/>
                                 </div>
                             </form>

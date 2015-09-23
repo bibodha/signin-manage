@@ -69,10 +69,6 @@
 	
 	var _componentsModalsJsx = __webpack_require__(/*! ./components/modals.jsx */ 158);
 	
-	var _signinJs = __webpack_require__(/*! ./signin.js */ 159);
-	
-	var _signinJs2 = _interopRequireDefault(_signinJs);
-	
 	var GridBox = (function (_React$Component) {
 	    _inherits(GridBox, _React$Component);
 	
@@ -80,24 +76,71 @@
 	        _classCallCheck(this, GridBox);
 	
 	        _get(Object.getPrototypeOf(GridBox.prototype), 'constructor', this).call(this);
+	        this.addKid = this.addKid.bind(this);
 	        this.state = { data: [] };
 	    }
 	
 	    _createClass(GridBox, [{
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
-	            var signin = new _signinJs2['default']();
-	            signin.getKids();
+	            var _this = this;
+	
+	            var p = new Promise(function (resolve, reject) {
+	                _this.getKids(function (data) {
+	                    return resolve(data);
+	                });
+	            });
+	            p.then(function (data) {
+	                _this.setState({ data: data });
+	            });
+	        }
+	    }, {
+	        key: 'getKids',
+	        value: function getKids(done) {
+	            $.ajax({
+	                url: '/kids/',
+	                dataType: 'json',
+	                type: 'GET',
+	                success: function success(data) {
+	                    return done(data);
+	                },
+	                error: function error(xhr, status, err) {
+	                    console.error('/kids/', status, err.toString());
+	                }
+	            });
 	        }
 	    }, {
 	        key: 'addKid',
 	        value: function addKid() {
-	            var signin = new _signinJs2['default']();
-	            var kids = signin.addKid();
-	            if (kids.length !== 0) {
-	                this.setState({ data: kids });
-	                $('#addModal').modal('hide');
-	            }
+	            var _this2 = this;
+	
+	            var kid = {
+	                firstName: $('#firstName').val(),
+	                lastName: $('#lastName').val(),
+	                street: $('#street').val(),
+	                city: $('#city').val(),
+	                state: $('#state').val(),
+	                zip: $('#zip').val(),
+	                dateOfBirth: $('#dateOfBirth').val(),
+	                gender: $('#gender').val(),
+	                school: $('#school').val()
+	            };
+	
+	            $.ajax({
+	                url: '/kids/add',
+	                dataType: 'json',
+	                type: 'POST',
+	                data: kid,
+	                success: (function (data) {
+	                    var oldState = _this2.state.data;
+	                    oldState.push(data);
+	                    _this2.setState({ data: oldState });
+	                    $('#addModal').modal('hide');
+	                }).bind(this),
+	                error: (function (xhr, status, err) {
+	                    console.error('/kids/add', status, err.toString());
+	                }).bind(this)
+	            });
 	        }
 	    }, {
 	        key: 'render',
@@ -132,10 +175,10 @@
 	    _createClass(GridList, [{
 	        key: 'render',
 	        value: function render() {
-	            var _this = this;
+	            var _this3 = this;
 	
 	            var items = this.props.kids.map(function (kid) {
-	                return _react2['default'].createElement(GridItem, { edit: _this.props.edit, 'delete': _this.props['delete'], data: _this.props.kid });
+	                return _react2['default'].createElement(GridItem, { edit: _this3.props.edit, 'delete': _this3.props['delete'], data: kid, key: kid._id });
 	            });
 	            return _react2['default'].createElement(
 	                'table',
@@ -201,11 +244,7 @@
 	                _react2['default'].createElement(
 	                    'tbody',
 	                    null,
-	                    _react2['default'].createElement(
-	                        'div',
-	                        { className: 'itemList' },
-	                        items
-	                    )
+	                    items
 	                )
 	            );
 	        }
@@ -232,12 +271,12 @@
 	                _react2['default'].createElement(
 	                    'td',
 	                    null,
-	                    this.props.data.firstName
+	                    this.props.data.firstname
 	                ),
 	                _react2['default'].createElement(
 	                    'td',
 	                    null,
-	                    this.props.data.lastName
+	                    this.props.data.lastname
 	                ),
 	                _react2['default'].createElement(
 	                    'td',
@@ -247,7 +286,7 @@
 	                _react2['default'].createElement(
 	                    'td',
 	                    null,
-	                    this.props.data.streetName
+	                    this.props.data.street
 	                ),
 	                _react2['default'].createElement(
 	                    'td',
@@ -21355,7 +21394,7 @@
 	                                    { className: "form-group" },
 	                                    _react2["default"].createElement(
 	                                        "label",
-	                                        { "for": "firstName" },
+	                                        { htmlFor: "firstName" },
 	                                        "First Name"
 	                                    ),
 	                                    _react2["default"].createElement("input", { type: "text", className: "form-control", id: "firstName", placeholder: "First Name" })
@@ -21365,7 +21404,7 @@
 	                                    { className: "form-group" },
 	                                    _react2["default"].createElement(
 	                                        "label",
-	                                        { "for": "lastName" },
+	                                        { htmlFor: "lastName" },
 	                                        "Last Name"
 	                                    ),
 	                                    _react2["default"].createElement("input", { type: "text", className: "form-control", id: "lastName", placeholder: "Last Name" })
@@ -21375,7 +21414,7 @@
 	                                    { className: "form-group" },
 	                                    _react2["default"].createElement(
 	                                        "label",
-	                                        { "for": "street" },
+	                                        { htmlFor: "street" },
 	                                        "Street"
 	                                    ),
 	                                    _react2["default"].createElement("input", { type: "text", className: "form-control", id: "street", placeholder: "Street" })
@@ -21385,7 +21424,7 @@
 	                                    { className: "form-group" },
 	                                    _react2["default"].createElement(
 	                                        "label",
-	                                        { "for": "city" },
+	                                        { htmlFor: "city" },
 	                                        "City"
 	                                    ),
 	                                    _react2["default"].createElement("input", { type: "text", className: "form-control", id: "city", placeholder: "City" })
@@ -21395,7 +21434,7 @@
 	                                    { className: "form-group" },
 	                                    _react2["default"].createElement(
 	                                        "label",
-	                                        { "for": "state" },
+	                                        { htmlFor: "state" },
 	                                        "State"
 	                                    ),
 	                                    _react2["default"].createElement("input", { type: "text", className: "form-control", id: "state", placeholder: "State" })
@@ -21405,7 +21444,7 @@
 	                                    { className: "form-group" },
 	                                    _react2["default"].createElement(
 	                                        "label",
-	                                        { "for": "zip" },
+	                                        { htmlFor: "zip" },
 	                                        "Zip"
 	                                    ),
 	                                    _react2["default"].createElement("input", { type: "text", className: "form-control", id: "zip", placeholder: "Zip" })
@@ -21415,7 +21454,7 @@
 	                                    { className: "form-group" },
 	                                    _react2["default"].createElement(
 	                                        "label",
-	                                        { "for": "dateOfBirth" },
+	                                        { htmlFor: "dateOfBirth" },
 	                                        "Date Of Birth"
 	                                    ),
 	                                    _react2["default"].createElement("input", { type: "text", className: "form-control", id: "dateOfBirth", placeholder: "Date Of Birth" })
@@ -21425,7 +21464,17 @@
 	                                    { className: "form-group" },
 	                                    _react2["default"].createElement(
 	                                        "label",
-	                                        { "for": "school" },
+	                                        { htmlFor: "gender" },
+	                                        "Gender"
+	                                    ),
+	                                    _react2["default"].createElement("input", { type: "text", className: "form-control", id: "gender", placeholder: "Gender" })
+	                                ),
+	                                _react2["default"].createElement(
+	                                    "div",
+	                                    { className: "form-group" },
+	                                    _react2["default"].createElement(
+	                                        "label",
+	                                        { htmlFor: "school" },
 	                                        "School"
 	                                    ),
 	                                    _react2["default"].createElement("input", { type: "text", className: "form-control", id: "school", placeholder: "School" })
@@ -21456,78 +21505,6 @@
 	})(_react2["default"].Component);
 	
 	exports.AddModal = AddModal;
-
-/***/ },
-/* 159 */
-/*!******************************************!*\
-  !*** ./public/javascripts/src/signin.js ***!
-  \******************************************/
-/***/ function(module, exports) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, '__esModule', {
-	    value: true
-	});
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-	
-	var Signin = (function () {
-	    function Signin() {
-	        _classCallCheck(this, Signin);
-	    }
-	
-	    _createClass(Signin, [{
-	        key: 'addKid',
-	        value: function addKid() {
-	            var kid = {
-	                firstName: $('#firstName').val(),
-	                lastName: $('#lastName').val(),
-	                street: $('#street').val(),
-	                city: $('#city').val(),
-	                state: $('#state').val(),
-	                zip: $('#zip').val(),
-	                dateOfBirth: $('#dateOfBirth').val(),
-	                school: $('#school').val()
-	            };
-	
-	            $.ajax({
-	                url: '/kids/add',
-	                dataType: 'json',
-	                type: 'POST',
-	                data: kid,
-	                success: (function (data) {
-	                    return data;
-	                }).bind(this),
-	                error: (function (xhr, status, err) {
-	                    console.error('/kids/add', status, err.toString());
-	                }).bind(this)
-	            });
-	        }
-	    }, {
-	        key: 'getKids',
-	        value: function getKids() {
-	            $.ajax({
-	                url: '/kids/',
-	                dataType: 'json',
-	                type: 'GET',
-	                success: (function (data) {
-	                    return data;
-	                }).bind(this),
-	                error: (function (xhr, status, err) {
-	                    console.error('/kids/', status, err.toString());
-	                }).bind(this)
-	            });
-	        }
-	    }]);
-	
-	    return Signin;
-	})();
-	
-	exports['default'] = Signin;
-	module.exports = exports['default'];
 
 /***/ }
 /******/ ]);
