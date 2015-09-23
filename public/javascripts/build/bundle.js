@@ -80,28 +80,21 @@
 	        _classCallCheck(this, GridBox);
 	
 	        _get(Object.getPrototypeOf(GridBox.prototype), 'constructor', this).call(this);
-	        var signin = new _signinJs2['default']();
-	        this.state = { data: signin.getKids() };
+	        this.state = { data: [] };
 	    }
 	
 	    _createClass(GridBox, [{
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
-	            var _this = this;
-	
-	            $.ajax({
-	                url: '/kids/',
-	                dataType: 'json',
-	                type: 'GET',
-	                success: (function (data) {
-	                    _this.setState({
-	                        data: data
-	                    });
-	                }).bind(this),
-	                error: (function (xhr, status, err) {
-	                    console.error('/kids/', status, err.toString());
-	                }).bind(this)
-	            });
+	            var signin = new _signinJs2['default']();
+	            signin.getKids();
+	        }
+	    }, {
+	        key: 'addKid',
+	        value: function addKid() {
+	            var signin = new _signinJs2['default']();
+	            var kids = signin.addKid();
+	            this.setState({ data: kids });
 	        }
 	    }, {
 	        key: 'render',
@@ -115,7 +108,7 @@
 	                    { className: 'btn btn-primary', 'data-toggle': 'modal', 'data-target': '#addModal' },
 	                    'Add'
 	                ),
-	                _react2['default'].createElement(_componentsModalsJsx.AddModal, null),
+	                _react2['default'].createElement(_componentsModalsJsx.AddModal, { addKid: this.addKid }),
 	                _react2['default'].createElement(GridList, { kids: this.state.data })
 	            );
 	        }
@@ -136,10 +129,10 @@
 	    _createClass(GridList, [{
 	        key: 'render',
 	        value: function render() {
-	            var _this2 = this;
+	            var _this = this;
 	
-	            var items = this.props.kids.map(function (item) {
-	                return _react2['default'].createElement(GridItem, { edit: _this2.props.edit, 'delete': _this2.props['delete'], data: _this2.props.kids });
+	            var items = this.props.kids.map(function (kid) {
+	                return _react2['default'].createElement(GridItem, { edit: _this.props.edit, 'delete': _this.props['delete'], data: _this.props.kid });
 	            });
 	            return _react2['default'].createElement(
 	                'table',
@@ -230,60 +223,60 @@
 	    _createClass(GridItem, [{
 	        key: 'render',
 	        value: function render() {
-	            _react2['default'].createElement(
+	            return _react2['default'].createElement(
 	                'tr',
 	                null,
 	                _react2['default'].createElement(
 	                    'td',
 	                    null,
-	                    'Mark'
+	                    this.props.data.firstName
 	                ),
 	                _react2['default'].createElement(
 	                    'td',
 	                    null,
-	                    'Otto'
+	                    this.props.data.lastName
 	                ),
 	                _react2['default'].createElement(
 	                    'td',
 	                    null,
-	                    'Mark Otto'
+	                    this.props.data.userName
 	                ),
 	                _react2['default'].createElement(
 	                    'td',
 	                    null,
-	                    '123 Some Street'
+	                    this.props.data.streetName
 	                ),
 	                _react2['default'].createElement(
 	                    'td',
 	                    null,
-	                    'Salt Lake City'
+	                    this.props.data.city
 	                ),
 	                _react2['default'].createElement(
 	                    'td',
 	                    null,
-	                    'UT'
+	                    this.props.data.state
 	                ),
 	                _react2['default'].createElement(
 	                    'td',
 	                    null,
-	                    '84111'
+	                    this.props.data.zip
 	                ),
 	                _react2['default'].createElement(
 	                    'td',
 	                    null,
-	                    'Male'
+	                    this.props.data.gender
 	                ),
 	                _react2['default'].createElement(
 	                    'td',
 	                    null,
-	                    'East High School'
+	                    this.props.data.school
 	                ),
 	                _react2['default'].createElement(
 	                    'td',
 	                    null,
-	                    _react2['default'].createElement('span', { className: 'glyphicon glyphicon-edit' }),
+	                    _react2['default'].createElement('span', { className: 'glyphicon glyphicon-edit', onClick: this.props.edit }),
 	                    '  ',
-	                    _react2['default'].createElement('span', { className: 'glyphicon glyphicon-trash' })
+	                    _react2['default'].createElement('span', { className: 'glyphicon glyphicon-trash', onClick: this.props['delete'] })
 	                )
 	            );
 	        }
@@ -21491,7 +21484,17 @@
 	    }, {
 	        key: 'getKids',
 	        value: function getKids() {
-	            return [];
+	            $.ajax({
+	                url: '/kids/',
+	                dataType: 'json',
+	                type: 'GET',
+	                success: (function (data) {
+	                    return data;
+	                }).bind(this),
+	                error: (function (xhr, status, err) {
+	                    console.error('/kids/', status, err.toString());
+	                }).bind(this)
+	            });
 	        }
 	    }]);
 	

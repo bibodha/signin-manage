@@ -6,24 +6,18 @@ import Signin from './signin.js';
 class GridBox extends React.Component {
     constructor() {
         super();
-        let signin = new Signin();
-        this.state = {data: signin.getKids()}
+        this.state = {data: []}
     }
 
     componentDidMount() {
-        $.ajax({
-            url: '/kids/',
-            dataType: 'json',
-            type: 'GET',
-            success: data => {
-                this.setState({
-                    data: data
-                });
-            }.bind(this),
-            error: (xhr, status, err) => {
-                console.error('/kids/', status, err.toString());
-            }.bind(this)
-        })
+        let signin = new Signin();
+        signin.getKids();
+    }
+
+    addKid() {
+        let signin = new Signin();
+        let kids = signin.addKid();
+        this.setState({data : kids});
     }
 
     render() {
@@ -31,7 +25,7 @@ class GridBox extends React.Component {
             <div>
                 <NavBar />
                 <button className="btn btn-primary" data-toggle="modal" data-target="#addModal">Add</button>
-                <AddModal />
+                <AddModal addKid={this.addKid}/>
                 <GridList kids={this.state.data}/>
             </div>
         );
@@ -40,9 +34,9 @@ class GridBox extends React.Component {
 
 class GridList extends React.Component {
     render() {
-        let items = this.props.kids.map(item => {
+        let items = this.props.kids.map(kid=> {
             return (
-                <GridItem edit={this.props.edit} delete={this.props.delete} data={this.props.kids} />
+                <GridItem edit={this.props.edit} delete={this.props.delete} data={this.props.kid} />
             );
         });
         return (
@@ -73,21 +67,23 @@ class GridList extends React.Component {
 
 class GridItem extends React.Component {
     render() {
-        <tr>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>Mark Otto</td>
-            <td>123 Some Street</td>
-            <td>Salt Lake City</td>
-            <td>UT</td>
-            <td>84111</td>
-            <td>Male</td>
-            <td>East High School</td>
-            <td>
-                <span className="glyphicon glyphicon-edit"></span>&nbsp;&nbsp;
-                <span className="glyphicon glyphicon-trash"></span>
-            </td>
-        </tr>
+        return(
+            <tr>
+                <td>{this.props.data.firstName}</td>
+                <td>{this.props.data.lastName}</td>
+                <td>{this.props.data.userName}</td>
+                <td>{this.props.data.streetName}</td>
+                <td>{this.props.data.city}</td>
+                <td>{this.props.data.state}</td>
+                <td>{this.props.data.zip}</td>
+                <td>{this.props.data.gender}</td>
+                <td>{this.props.data.school}</td>
+                <td>
+                    <span className="glyphicon glyphicon-edit" onClick={this.props.edit}></span>&nbsp;&nbsp;
+                    <span className="glyphicon glyphicon-trash" onClick={this.props.delete}></span>
+                </td>
+            </tr>
+        );
     }
 }
 
