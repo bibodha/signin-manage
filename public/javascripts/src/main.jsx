@@ -1,6 +1,7 @@
 import React from 'react';
 import NavBar from './components/navbar.jsx';
 import {AddModal} from './components/modals.jsx';
+import Search from './components/search.jsx';
 
 class GridBox extends React.Component {
     constructor() {
@@ -70,6 +71,7 @@ class GridBox extends React.Component {
                 <NavBar />
                 <button className="btn btn-primary" data-toggle="modal" data-target="#addModal">Add</button>
                 <AddModal addKid={this.addKid}/>
+                <Search />
                 <GridList kids={this.state.data}/>
             </div>
         );
@@ -113,7 +115,7 @@ class GridItem extends React.Component {
             <tr>
                 <td>{this.props.data.firstname}</td>
                 <td>{this.props.data.lastname}</td>
-                <td>{this.props.data.userName}</td>
+                <td>{this.props.data.username}</td>
                 <td>{this.props.data.street}</td>
                 <td>{this.props.data.city}</td>
                 <td>{this.props.data.state}</td>

@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var Kid = require('../models/kid');
+var _ = require('lodash');
 
 /* GET users listing. */
 router.get('/', (req, res, next) => {
@@ -30,14 +31,38 @@ router.post('/add', (req, res, next) => {
         school : item.school
     });
 
-    kid.save(err => {
-        if(err){
-            console.log(err);
-            return;
-        }
-        res.setHeader('Content-Type', 'application/json');
-        res.send(kid);
+    var promise = new Promise((resolve, reject) => {
+        Kid.find({'firstname': kid.firstname, 'lastname': kid.lastname}, (err, children) => {
+            if(!children){
+                kid.username = kid.firstname + ' ' + kid.lastname;
+            }
+            else {
+                var child = _.last(children);
+                var usernameSplit = child.username.split(' ');
+                var num;
+
+                if(usernameSplit.length > 2){
+                    num = parseInt(usernameSplit[2]);
+                    num++;
+                }
+                else {
+                    num = 1;
+                }
+                kid.username = child.firstname + ' ' + child.lastname + ' ' + num;
+            }
+            resolve()
+        });
     });
+    promise.then(() => {
+        kid.save(err => {
+            if(err){
+                console.log(err);
+                return;
+            }
+            res.setHeader('Content-Type', 'application/json');
+            res.send(kid);
+        });
+    })
 });
 
 module.exports = router;
