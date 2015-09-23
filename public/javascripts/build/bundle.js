@@ -94,7 +94,10 @@
 	        value: function addKid() {
 	            var signin = new _signinJs2['default']();
 	            var kids = signin.addKid();
-	            this.setState({ data: kids });
+	            if (kids.length !== 0) {
+	                this.setState({ data: kids });
+	                $('#addModal').modal('hide');
+	            }
 	        }
 	    }, {
 	        key: 'render',
@@ -21479,7 +21482,29 @@
 	    _createClass(Signin, [{
 	        key: 'addKid',
 	        value: function addKid() {
-	            var firstName = $('#firstName').val();
+	            var kid = {
+	                firstName: $('#firstName').val(),
+	                lastName: $('#lastName').val(),
+	                street: $('#street').val(),
+	                city: $('#city').val(),
+	                state: $('#state').val(),
+	                zip: $('#zip').val(),
+	                dateOfBirth: $('#dateOfBirth').val(),
+	                school: $('#school').val()
+	            };
+	
+	            $.ajax({
+	                url: '/kids/add',
+	                dataType: 'json',
+	                type: 'POST',
+	                data: kid,
+	                success: (function (data) {
+	                    return data;
+	                }).bind(this),
+	                error: (function (xhr, status, err) {
+	                    console.error('/kids/add', status, err.toString());
+	                }).bind(this)
+	            });
 	        }
 	    }, {
 	        key: 'getKids',

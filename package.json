@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node --debug ./bin/www",
+    "start": "node --debug --use_strict ./bin/www",
     "debug": "nodemon --debug",
     "mongo": "mongod --dbpath data/db/",
     "webpack": "webpack --watch --progress --colors -d"
@@ -16,7 +16,7 @@
     "hbs": "~3.1.0",
     "morgan": "~1.6.1",
     "serve-favicon": "~2.3.0",
-    "bcrypt-nodejs": "0.0.3",
+    "bcryptjs": "2.2.2",
     "connect-flash": "^0.1.1",
     "express-session": "^1.11.3",
     "mongoose": "^4.1.7",

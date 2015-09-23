@@ -3,11 +3,11 @@ var router = express.Router();
 var Kid = require('../models/kid');
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
+router.get('/', (req, res, next) => {
     var data =[];
-    Kid.find(function(err, kids){
+    Kid.find((err, kids) => {
         if(kids.length !== 0){
-            data = kids.map(function(item){
+            data = kids.map(item => {
                 return item.toJSON();
             });
         }
@@ -16,11 +16,27 @@ router.get('/', function(req, res, next) {
     });
 });
 
-router.post('/', function(req, res, next){
-    var item = req.body.kid;
+router.post('/add', (req, res, next) => {
+    var item = req.body;
     var kid = new Kid({
+        firstname : item.firstName,
+        lastname : item.lastName,
+        street : item.street,
+        city : item.city,
+        state : item.state,
+        zip : item.zip,
+        dateOfBirth : item.dateOfBirth,
+        school : item.school
+    });
 
-    })
+    kid.save(err => {
+        if(err){
+            console.log(err);
+            return;
+        }
+        res.setHeader('Content-Type', 'application/json');
+        res.send(kid);
+    });
 });
 
 module.exports = router;

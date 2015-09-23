@@ -17,7 +17,10 @@ class GridBox extends React.Component {
     addKid() {
         let signin = new Signin();
         let kids = signin.addKid();
-        this.setState({data : kids});
+        if(kids.length !== 0) {
+            this.setState({data : kids});
+            $('#addModal').modal('hide');
+        }
     }
 
     render() {

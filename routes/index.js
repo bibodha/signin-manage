@@ -3,19 +3,19 @@ var router = express.Router();
 var passport = require('passport');
 
 /* GET home page. */
-router.get('/', isLoggedIn, function(req, res, next) {
+router.get('/', isLoggedIn, (req, res, next) => {
     res.render('index', {
         title: 'Express'
     });
 });
 
-router.get('/login', function(req, res) {
+router.get('/login', (req, res) => {
     res.render('login', {
         title: 'Login'
     });
 });
 
-router.get('/logout', function(req, res) {
+router.get('/logout', (req, res) => {
     req.logout();
     res.redirect('/');
 });
@@ -23,16 +23,16 @@ router.get('/logout', function(req, res) {
 router.post('/signup', passport.authenticate('local-signup', {
     successRedirect: '/',
     failureRedirect: '/loginFailure',
-    failureFlash: true
+    failureFlash: false
 }));
 
 router.post('/login', passport.authenticate('local-login', {
     successRedirect: '/',
     failureRedirect: '/loginFailure',
-    failureFlash: true
+    failureFlash: false
 }));
 
-router.get('/loginFailure', function(req, res) {
+router.get('/loginFailure', (req, res) => {
     res.redirect('/login');
 });
 
