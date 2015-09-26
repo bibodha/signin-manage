@@ -6,17 +6,17 @@ import Search from './components/search.jsx';
 class GridBox extends React.Component {
     constructor() {
         super();
-        this.addKid = this.addKid.bind(this);
         this.state = {data: []}
+        this.addKid = this.addKid.bind(this);
     }
 
     componentDidMount() {
-        var p = new Promise((resolve, reject) => {
+        var promise = new Promise((resolve, reject) => {
             this.getKids(data => {
                 return resolve(data);
             });
         });
-        p.then(data => {
+        promise.then(data => {
             this.setState({data: data});
         });
     }
@@ -51,7 +51,7 @@ class GridBox extends React.Component {
         $.ajax({
             url: '/kids/add',
             dataType: 'json',
-            type: 'POST',
+                    type: 'POST',
             data: kid,
             success: data => {
                 var oldState = this.state.data;
@@ -69,10 +69,18 @@ class GridBox extends React.Component {
         return (
             <div>
                 <NavBar />
-                <button className="btn btn-primary" data-toggle="modal" data-target="#addModal">Add</button>
                 <AddModal addKid={this.addKid}/>
-                <Search />
-                <GridList kids={this.state.data}/>
+                <div className="row">
+                    <div className="col-md-1"></div>
+                    <div className="col-md-1">
+                        <button id="addButton" className="btn btn-primary btn-lg" data-toggle="modal" data-target="#addModal">Add</button>
+                    </div>
+                    <div className="col-md-8">
+                        <Search />
+                    </div>
+                    <div className="col-md-2"></div>
+                </div>
+                <GridList kids={this.state.data} edit={this.edit} delete={this.delete}/>
             </div>
         );
     }
@@ -123,8 +131,8 @@ class GridItem extends React.Component {
                 <td>{this.props.data.gender}</td>
                 <td>{this.props.data.school}</td>
                 <td>
-                    <span className="glyphicon glyphicon-edit" onClick={this.props.edit}></span>&nbsp;&nbsp;
-                    <span className="glyphicon glyphicon-trash" onClick={this.props.delete}></span>
+                    <span id="editIcon" className="glyphicon glyphicon-edit" onClick={this.props.edit}></span>&nbsp;&nbsp;
+                    <span id="deleteIcon" className="glyphicon glyphicon-trash" onClick={this.props.delete}></span>
                 </td>
             </tr>
         );

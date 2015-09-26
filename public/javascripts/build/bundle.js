@@ -69,7 +69,7 @@
 	
 	var _componentsModalsJsx = __webpack_require__(/*! ./components/modals.jsx */ 158);
 	
-	var _componentsSearchJsx = __webpack_require__(/*! ./components/search.jsx */ 160);
+	var _componentsSearchJsx = __webpack_require__(/*! ./components/search.jsx */ 159);
 	
 	var _componentsSearchJsx2 = _interopRequireDefault(_componentsSearchJsx);
 	
@@ -80,8 +80,8 @@
 	        _classCallCheck(this, GridBox);
 	
 	        _get(Object.getPrototypeOf(GridBox.prototype), 'constructor', this).call(this);
-	        this.addKid = this.addKid.bind(this);
 	        this.state = { data: [] };
+	        this.addKid = this.addKid.bind(this);
 	    }
 	
 	    _createClass(GridBox, [{
@@ -89,12 +89,12 @@
 	        value: function componentDidMount() {
 	            var _this = this;
 	
-	            var p = new Promise(function (resolve, reject) {
+	            var promise = new Promise(function (resolve, reject) {
 	                _this.getKids(function (data) {
 	                    return resolve(data);
 	                });
 	            });
-	            p.then(function (data) {
+	            promise.then(function (data) {
 	                _this.setState({ data: data });
 	            });
 	        }
@@ -153,14 +153,28 @@
 	                'div',
 	                null,
 	                _react2['default'].createElement(_componentsNavbarJsx2['default'], null),
-	                _react2['default'].createElement(
-	                    'button',
-	                    { className: 'btn btn-primary', 'data-toggle': 'modal', 'data-target': '#addModal' },
-	                    'Add'
-	                ),
 	                _react2['default'].createElement(_componentsModalsJsx.AddModal, { addKid: this.addKid }),
-	                _react2['default'].createElement(_componentsSearchJsx2['default'], null),
-	                _react2['default'].createElement(GridList, { kids: this.state.data })
+	                _react2['default'].createElement(
+	                    'div',
+	                    { className: 'row' },
+	                    _react2['default'].createElement('div', { className: 'col-md-1' }),
+	                    _react2['default'].createElement(
+	                        'div',
+	                        { className: 'col-md-1' },
+	                        _react2['default'].createElement(
+	                            'button',
+	                            { id: 'addButton', className: 'btn btn-primary btn-lg', 'data-toggle': 'modal', 'data-target': '#addModal' },
+	                            'Add'
+	                        )
+	                    ),
+	                    _react2['default'].createElement(
+	                        'div',
+	                        { className: 'col-md-8' },
+	                        _react2['default'].createElement(_componentsSearchJsx2['default'], null)
+	                    ),
+	                    _react2['default'].createElement('div', { className: 'col-md-2' })
+	                ),
+	                _react2['default'].createElement(GridList, { kids: this.state.data, edit: this.edit, 'delete': this['delete'] })
 	            );
 	        }
 	    }]);
@@ -321,9 +335,9 @@
 	                _react2['default'].createElement(
 	                    'td',
 	                    null,
-	                    _react2['default'].createElement('span', { className: 'glyphicon glyphicon-edit', onClick: this.props.edit }),
+	                    _react2['default'].createElement('span', { id: 'editIcon', className: 'glyphicon glyphicon-edit', onClick: this.props.edit }),
 	                    '  ',
-	                    _react2['default'].createElement('span', { className: 'glyphicon glyphicon-trash', onClick: this.props['delete'] })
+	                    _react2['default'].createElement('span', { id: 'deleteIcon', className: 'glyphicon glyphicon-trash', onClick: this.props['delete'] })
 	                )
 	            );
 	        }
@@ -21385,7 +21399,7 @@
 	                            _react2["default"].createElement(
 	                                "h4",
 	                                { className: "modal-title" },
-	                                "Add Kid"
+	                                "Add Child"
 	                            )
 	                        ),
 	                        _react2["default"].createElement(
@@ -21426,33 +21440,31 @@
 	                                ),
 	                                _react2["default"].createElement(
 	                                    "div",
-	                                    { className: "form-group" },
+	                                    { className: "form-group form-inline" },
 	                                    _react2["default"].createElement(
 	                                        "label",
 	                                        { htmlFor: "city" },
 	                                        "City"
 	                                    ),
-	                                    _react2["default"].createElement("input", { type: "text", className: "form-control", id: "city", placeholder: "City" })
-	                                ),
-	                                _react2["default"].createElement(
-	                                    "div",
-	                                    { className: "form-group" },
+	                                    " ",
+	                                    _react2["default"].createElement("input", { type: "text", className: "form-control", id: "city", size: "36", placeholder: "City" }),
+	                                    "  ",
 	                                    _react2["default"].createElement(
 	                                        "label",
 	                                        { htmlFor: "state" },
 	                                        "State"
 	                                    ),
-	                                    _react2["default"].createElement("input", { type: "text", className: "form-control", id: "state", placeholder: "State" })
-	                                ),
-	                                _react2["default"].createElement(
-	                                    "div",
-	                                    { className: "form-group" },
+	                                    " ",
+	                                    _react2["default"].createElement("input", { type: "text", className: "form-control", maxLength: "2", size: "3", id: "state" }),
+	                                    "  ",
 	                                    _react2["default"].createElement(
 	                                        "label",
 	                                        { htmlFor: "zip" },
 	                                        "Zip"
 	                                    ),
-	                                    _react2["default"].createElement("input", { type: "text", className: "form-control", id: "zip", placeholder: "Zip" })
+	                                    " ",
+	                                    _react2["default"].createElement("input", { type: "text", className: "form-control", id: "zip", maxLength: "5", size: "3", placeholder: "Zip" }),
+	                                    " "
 	                                ),
 	                                _react2["default"].createElement(
 	                                    "div",
@@ -21472,7 +21484,25 @@
 	                                        { htmlFor: "gender" },
 	                                        "Gender"
 	                                    ),
-	                                    _react2["default"].createElement("input", { type: "text", className: "form-control", id: "gender", placeholder: "Gender" })
+	                                    _react2["default"].createElement(
+	                                        "select",
+	                                        { className: "form-control" },
+	                                        _react2["default"].createElement(
+	                                            "option",
+	                                            null,
+	                                            "--"
+	                                        ),
+	                                        _react2["default"].createElement(
+	                                            "option",
+	                                            null,
+	                                            "Male"
+	                                        ),
+	                                        _react2["default"].createElement(
+	                                            "option",
+	                                            null,
+	                                            "Female"
+	                                        )
+	                                    )
 	                                ),
 	                                _react2["default"].createElement(
 	                                    "div",
@@ -21512,8 +21542,7 @@
 	exports.AddModal = AddModal;
 
 /***/ },
-/* 159 */,
-/* 160 */
+/* 159 */
 /*!******************************************************!*\
   !*** ./public/javascripts/src/components/search.jsx ***!
   \******************************************************/
@@ -21561,6 +21590,7 @@
 	                    _react2["default"].createElement(
 	                        "span",
 	                        { className: "input-group-btn" },
+	                        "s                           ",
 	                        _react2["default"].createElement(
 	                            "button",
 	                            { className: "btn btn-info btn-lg", type: "button" },

@@ -8,7 +8,7 @@ export class AddModal extends React.Component {
                     <div className="modal-content">
                         <div className="modal-header">
                             <button type="button" className="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <h4 className="modal-title">Add Kid</h4>
+                            <h4 className="modal-title">Add Child</h4>
                         </div>
                         <div className="modal-body">
                             <form>
@@ -24,17 +24,13 @@ export class AddModal extends React.Component {
                                     <label htmlFor="street">Street</label>
                                     <input type="text" className="form-control" id="street" placeholder="Street"/>
                                 </div>
-                                <div className="form-group">
-                                    <label htmlFor="city">City</label>
-                                    <input type="text" className="form-control" id="city" placeholder="City"/>
-                                </div>
-                                <div className="form-group">
-                                    <label htmlFor="state">State</label>
-                                    <input type="text" className="form-control" id="state" placeholder="State"/>
-                                </div>
-                                <div className="form-group">
-                                    <label htmlFor="zip">Zip</label>
-                                    <input type="text" className="form-control" id="zip" placeholder="Zip"/>
+                                <div className="form-group form-inline">
+                                    <label htmlFor="city">City</label>&nbsp;
+                                    <input type="text" className="form-control" id="city" size="36" placeholder="City"/>&nbsp;&nbsp;
+                                    <label htmlFor="state">State</label>&nbsp;
+                                    <input type="text" className="form-control" maxLength="2" size="3" id="state" />&nbsp;&nbsp;
+                                    <label htmlFor="zip">Zip</label>&nbsp;
+                                    <input type="text" className="form-control" id="zip" maxLength="5" size="3" placeholder="Zip"/>&nbsp;
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="dateOfBirth">Date Of Birth</label>
@@ -42,7 +38,11 @@ export class AddModal extends React.Component {
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="gender">Gender</label>
-                                    <input type="text" className="form-control" id="gender" placeholder="Gender"/>
+                                    <select className="form-control">
+                                        <option>--</option>
+                                        <option>Male</option>
+                                        <option>Female</option>
+                                    </select>
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="school">School</label>

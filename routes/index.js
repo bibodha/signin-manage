@@ -5,7 +5,8 @@ var passport = require('passport');
 /* GET home page. */
 router.get('/', isLoggedIn, (req, res, next) => {
     res.render('index', {
-        title: 'Express'
+        title: 'Express',
+        username: req.user
     });
 });
 
@@ -37,7 +38,6 @@ router.get('/loginFailure', (req, res) => {
 });
 
 function isLoggedIn(req, res, next) {
-    return next();
     if (req.isAuthenticated()) {
         return next();
     }

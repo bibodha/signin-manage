@@ -33,6 +33,9 @@ router.post('/add', (req, res, next) => {
 
     var promise = new Promise((resolve, reject) => {
         Kid.find({'firstname': kid.firstname, 'lastname': kid.lastname}, (err, children) => {
+            if(err){
+                reject();
+            }
             if(!children){
                 kid.username = kid.firstname + ' ' + kid.lastname;
             }
