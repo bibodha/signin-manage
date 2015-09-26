@@ -9,3 +9,5 @@ journal/
 *.log
 
 .DS_Store
+
+build/
