@@ -2,6 +2,7 @@ import React from 'react';
 import NavBar from './components/navbar.jsx';
 import {AddModal} from './components/modals.jsx';
 import Search from './components/search.jsx';
+import _ from 'lodash';
 
 class GridBox extends React.Component {
     constructor() {
@@ -13,54 +14,46 @@ class GridBox extends React.Component {
     }
 
     componentDidMount() {
-        var promise = new Promise((resolve, reject) => {
-            this.getKids(data => {
-                return resolve(data);
-            });
-        });
-        promise.then(data => {
+        Promise.resolve(this.getKids())
+        .then(data => {
             this.setState({data: data});
         });
     }
 
     deleteKid(id){
-        var promise = new Promise((resolve, reject) => {
-            $.ajax({
-                url: '/kids/delete',
-                dataType: 'json',
-                type: 'POST',
-                data: {id: id},
-                success: data => {
-                    resolve();
-                },
-                error: (xhr, status, err) => {
-                    var status = '/kids/delete ' + status + err.toString();
-                    console.error(status);
-                    reject(status);
-                }
-            });
-        }).then(data => {
-            this.getKids(data => {
-                return resolve(data);
-            });
-        }).then(data => {
-            this.setState({data: data});
-        }).catch((data) => {
-            console.error(data);
+        $.ajax({
+            url: '/kids/delete',
+            dataType: 'json',
+            type: 'POST',
+            data: {id: id},
+            success: data => {
+                let state = this.state.data;
+                _.remove(state, item => {
+                    return item._id == id;
+                });
+                this.setState({data: state});
+            },
+            error: (xhr, status, err) => {
+                var status = '/kids/delete ' + status + err.toString();
+                console.error(status);
+                reject(status);
+            }
         });
     }
 
     getKids(done) {
-        $.ajax({
-            url: '/kids/',
-            dataType: 'json',
-            type: 'GET',
-            success: data => {
-                return done(data);
-            },
-            error: (xhr, status, err) => {
-                console.error('/kids/', status, err.toString());
-            }
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                url: '/kids/',
+                dataType: 'json',
+                type: 'GET',
+                success: data => {
+                    resolve(data);
+                },
+                error: (xhr, status, err) => {
+                    reject('/kids/', status, err.toString());
+                }
+            });
         });
     }
 
