@@ -1,6 +1,6 @@
 import React from 'react';
 import NavBar from './components/navbar.jsx';
-import {AddModal} from './components/modals.jsx';
+import {AddModal, DeleteConfirmModal} from './components/modals.jsx';
 import Search from './components/search.jsx';
 import _ from 'lodash';
 
@@ -20,7 +20,8 @@ class GridBox extends React.Component {
         });
     }
 
-    deleteKid(id){
+    deleteKid(event){
+        let id = $(event.currentTarget).data('id');
         $.ajax({
             url: '/kids/delete',
             dataType: 'json',
@@ -36,7 +37,6 @@ class GridBox extends React.Component {
             error: (xhr, status, err) => {
                 var status = '/kids/delete ' + status + err.toString();
                 console.error(status);
-                reject(status);
             }
         });
     }
@@ -105,6 +105,7 @@ class GridBox extends React.Component {
             <div>
                 <NavBar />
                 <AddModal addKid={this.addKid} clearForm={this.clearForm}/>
+                <DeleteConfirmModal delete={this.deleteKid.bind(this)}/>
                 <div className="row">
                     <div className="col-md-1"></div>
                     <div className="col-md-1">
@@ -115,7 +116,7 @@ class GridBox extends React.Component {
                     </div>
                     <div className="col-md-2"></div>
                 </div>
-                <GridList kids={this.state.data} edit={this.edit} delete={this.deleteKid}/>
+                <GridList kids={this.state.data} edit={this.edit} delete={this.deleteKid.bind(this)}/>
             </div>
         );
     }
@@ -125,7 +126,7 @@ class GridList extends React.Component {
     render() {
         let items = this.props.kids.map(kid=> {
             return (
-                <GridItem edit={this.props.edit} delete={this.props.delete.bind(this, kid._id)} data={kid} key={kid._id} />
+                <GridItem edit={this.props.edit} data={kid} key={kid._id} />
             );
         });
         return (
@@ -154,6 +155,7 @@ class GridList extends React.Component {
 
 class GridItem extends React.Component {
     render() {
+        var fullName = this.props.data.firstname + ' ' + this.props.data.lastname;
         return(
             <tr>
                 <td>{this.props.data.firstname}</td>
@@ -167,7 +169,7 @@ class GridItem extends React.Component {
                 <td>{this.props.data.school}</td>
                 <td>
                     <span id="editIcon" className="glyphicon glyphicon-edit" onClick={this.props.edit}></span>&nbsp;&nbsp;
-                    <span id="deleteIcon" className="glyphicon glyphicon-trash" onClick={this.props.delete}></span>
+                    <span id="deleteIcon" className="glyphicon glyphicon-trash" data-id={this.props.data._id} data-name={fullName} data-toggle="modal" data-target="#deleteConfirmModal"></span>
                 </td>
             </tr>
         );

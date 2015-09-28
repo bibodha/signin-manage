@@ -39,7 +39,7 @@ router.post('/delete', (req, res, next) => {
 
     Kid.remove({_id: id}, err => {
         if(err){
-            console.console.error("Delete failed");
+            console.error("Delete failed");
         }
         res.setHeader('Content-Type', 'application/json');
         res.send(true);

@@ -59,3 +59,37 @@ export class AddModal extends React.Component {
         );
     }
 }
+
+export class DeleteConfirmModal extends React.Component {
+    render() {
+        $('#deleteConfirmModal').on('show.bs.modal', event => {
+            let button = $(event.relatedTarget),
+                fullName = button.data('name'),
+                id = button.data('id');
+
+            $('#fullName').html(fullName);
+            $('#confirmDeleteButton').attr('data-id', id);
+        });
+
+        return(
+            <div id="deleteConfirmModal" className="modal fade">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <button type="button" className="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 className="modal-title">Confirm Delete</h4>
+                        </div>
+                        <div className="modal-body">
+                            <p>Are you sure you want to delete <span id="fullName"></span>?</p>
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-default" data-dismiss="modal">Cancel</button>
+                            <button type="button" id="confirmDeleteButton" className="btn btn-danger" data-dismiss="modal" onClick={this.props.delete.bind(this)}>Confirm</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+}
+
