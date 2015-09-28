@@ -7,8 +7,7 @@ export class AddModal extends React.Component {
                 <div className="modal-dialog">
                     <div className="modal-content">
                         <div className="modal-header">
-                            <button type="button" className="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <h4 className="modal-title">Add Child</h4>
+                            <button type="button" className="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button> <h4 className="modal-title">Add Child</h4>
                         </div>
                         <div className="modal-body">
                             <form>
@@ -26,7 +25,7 @@ export class AddModal extends React.Component {
                                 </div>
                                 <div className="form-group form-inline">
                                     <label htmlFor="city">City</label>&nbsp;
-                                    <input type="text" className="form-control" id="city" size="36" placeholder="City"/>&nbsp;&nbsp;
+                                    <input type="text" className="form-control" id="city" size="30" placeholder="City"/>&nbsp;&nbsp;
                                     <label htmlFor="state">State</label>&nbsp;
                                     <input type="text" className="form-control" maxLength="2" size="3" id="state" />&nbsp;&nbsp;
                                     <label htmlFor="zip">Zip</label>&nbsp;
@@ -38,7 +37,7 @@ export class AddModal extends React.Component {
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="gender">Gender</label>
-                                    <select className="form-control">
+                                    <select id="gender" className="form-control">
                                         <option>--</option>
                                         <option>Male</option>
                                         <option>Female</option>
@@ -51,7 +50,7 @@ export class AddModal extends React.Component {
                             </form>
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" onClick={this.props.clearForm} className="btn btn-default" data-dismiss="modal">Close</button>
                             <button type="button" onClick={this.props.addKid} className="btn btn-primary">Save changes</button>
                         </div>
                     </div>

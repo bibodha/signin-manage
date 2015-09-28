@@ -4,6 +4,22 @@ var Kid = require('../models/kid');
 var _ = require('lodash');
 
 /* GET users listing. */
+
+var createKidObject = function(item){
+    var kid = new Kid({
+        firstname : item.firstName,
+        lastname : item.lastName,
+        street : item.street,
+        city : item.city,
+        state : item.state,
+        zip : item.zip,
+        dateOfBirth : item.dateOfBirth,
+        gender: item.gender,
+        school : item.school
+    });
+    return kid;
+}
+
 router.get('/', (req, res, next) => {
     var data =[];
     Kid.find((err, kids) => {
@@ -17,26 +33,28 @@ router.get('/', (req, res, next) => {
     });
 });
 
+router.post('/delete', (req, res, next) => {
+    var item = req.body;
+    var id = item.id;
+
+    Kid.remove({_id: id}, err => {
+        if(err){
+            console.console.error("Delete failed");
+        }
+        res.setHeader('Content-Type', 'application/json');
+        res.send(true);
+    });
+});
+
 router.post('/add', (req, res, next) => {
     var item = req.body;
-    var kid = new Kid({
-        firstname : item.firstName,
-        lastname : item.lastName,
-        street : item.street,
-        city : item.city,
-        state : item.state,
-        zip : item.zip,
-        dateOfBirth : item.dateOfBirth,
-        gender: item.gender,
-        school : item.school
-    });
-
+    var kid = createKidObject(item);
     var promise = new Promise((resolve, reject) => {
         Kid.find({'firstname': kid.firstname, 'lastname': kid.lastname}, (err, children) => {
             if(err){
                 reject();
             }
-            if(!children){
+            if(!children.length){
                 kid.username = kid.firstname + ' ' + kid.lastname;
             }
             else {

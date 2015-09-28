@@ -8,11 +8,11 @@ var userSchema = mongoose.Schema({
     lastName: String
 });
 
-userSchema.methods.generateHash = (password) => {
+userSchema.methods.generateHash = function(password) {
     return bcrypt.hashSync(password, 8);
 };
 
-userSchema.methods.validPassword = (password) => {
+userSchema.methods.validPassword = function(password) {
     return bcrypt.compareSync(password, this.password);
 }
 

@@ -8,6 +8,8 @@ class GridBox extends React.Component {
         super();
         this.state = {data: []}
         this.addKid = this.addKid.bind(this);
+        this.clearForm = this.clearForm.bind(this);
+        this.deleteKid = this.deleteKid.bind(this);
     }
 
     componentDidMount() {
@@ -18,6 +20,33 @@ class GridBox extends React.Component {
         });
         promise.then(data => {
             this.setState({data: data});
+        });
+    }
+
+    deleteKid(id){
+        var promise = new Promise((resolve, reject) => {
+            $.ajax({
+                url: '/kids/delete',
+                dataType: 'json',
+                type: 'POST',
+                data: {id: id},
+                success: data => {
+                    resolve();
+                },
+                error: (xhr, status, err) => {
+                    var status = '/kids/delete ' + status + err.toString();
+                    console.error(status);
+                    reject(status);
+                }
+            });
+        }).then(data => {
+            this.getKids(data => {
+                return resolve(data);
+            });
+        }).then(data => {
+            this.setState({data: data});
+        }).catch((data) => {
+            console.error(data);
         });
     }
 
@@ -33,6 +62,18 @@ class GridBox extends React.Component {
                 console.error('/kids/', status, err.toString());
             }
         });
+    }
+
+    clearForm() {
+        $('#firstName').val('');
+        $('#lastName').val('');
+        $('#street').val('');
+        $('#city').val('');
+        $('#state').val('');
+        $('#zip').val('');
+        $('#dateOfBirth').val('');
+        $("#gender option:first").attr('selected','selected');
+        $('#school').val('');
     }
 
     addKid() {
@@ -58,6 +99,7 @@ class GridBox extends React.Component {
                 oldState.push(data);
                 this.setState({data: oldState});
                 $('#addModal').modal('hide');
+                clearForm();
             }.bind(this),
             error: (xhr, status, err) => {
                 console.error('/kids/add', status, err.toString());
@@ -69,7 +111,7 @@ class GridBox extends React.Component {
         return (
             <div>
                 <NavBar />
-                <AddModal addKid={this.addKid}/>
+                <AddModal addKid={this.addKid} clearForm={this.clearForm}/>
                 <div className="row">
                     <div className="col-md-1"></div>
                     <div className="col-md-1">
@@ -80,7 +122,7 @@ class GridBox extends React.Component {
                     </div>
                     <div className="col-md-2"></div>
                 </div>
-                <GridList kids={this.state.data} edit={this.edit} delete={this.delete}/>
+                <GridList kids={this.state.data} edit={this.edit} delete={this.deleteKid}/>
             </div>
         );
     }
@@ -90,7 +132,7 @@ class GridList extends React.Component {
     render() {
         let items = this.props.kids.map(kid=> {
             return (
-                <GridItem edit={this.props.edit} delete={this.props.delete} data={kid} key={kid._id} />
+                <GridItem edit={this.props.edit} delete={this.props.delete.bind(this, kid._id)} data={kid} key={kid._id} />
             );
         });
         return (
