@@ -44,7 +44,7 @@ body {
   margin-bottom: 10px;
 }
 
-#state{
+#addState, #editState{
     text-transform: uppercase;
 }
 

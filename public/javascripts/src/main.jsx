@@ -1,6 +1,6 @@
 import React from 'react';
 import NavBar from './components/navbar.jsx';
-import {AddModal, DeleteConfirmModal} from './components/modals.jsx';
+import {AddModal, DeleteConfirmModal, EditModal} from './components/modals.jsx';
 import Search from './components/search.jsx';
 import _ from 'lodash';
 
@@ -11,6 +11,7 @@ class GridBox extends React.Component {
         this.addKid = this.addKid.bind(this);
         this.clearForm = this.clearForm.bind(this);
         this.deleteKid = this.deleteKid.bind(this);
+        this.setForm = this.setForm.bind(this);
     }
 
     componentDidMount() {
@@ -41,6 +42,25 @@ class GridBox extends React.Component {
         });
     }
 
+    edit(item) {
+        $('#editId').val(item._id);
+        $('#editFirstName').val(item.firstname);
+        $('#editLastName').val(item.lastname);
+        $('#editStreet').val(item.street);
+        $('#editCity').val(item.city);
+        $('#editState').val(item.state);
+        $('#editZip').val(item.zip);
+        $('#editDateOfBirth').val(new Date(item.dateOfBirth).toLocaleDateString());
+        $('#editGender').val(item.gender);
+        $('#editSchool').val(item.school);
+
+        $('#editModal').modal('show');
+    }
+
+    editKid() {
+        
+    }
+
     getKids(done) {
         return new Promise((resolve, reject) => {
             $.ajax({
@@ -54,6 +74,21 @@ class GridBox extends React.Component {
                     reject('/kids/', status, err.toString());
                 }
             });
+        });
+    }
+
+    setForm(prefix, item) {
+        let inputs = ['FirstName', 'LastName', 'Street', 'City', 'State', 'Zip', 'DateOfBirth', 'Gender', 'School'];
+        item = item || [];
+        _.forEach(inputs, input => {
+            if(input === 'Gender') {
+                if(!item.length){
+                    $('#' + prefix + 'Gender option:first').attr('selected','selected');
+                }
+            }
+            else{
+                $('#' + prefix + input).val(item[input]);
+            }
         });
     }
 
@@ -92,7 +127,7 @@ class GridBox extends React.Component {
                 oldState.push(data);
                 this.setState({data: oldState});
                 $('#addModal').modal('hide');
-                clearForm();
+                setForm('add');
             }.bind(this),
             error: (xhr, status, err) => {
                 console.error('/kids/add', status, err.toString());
@@ -104,8 +139,9 @@ class GridBox extends React.Component {
         return (
             <div>
                 <NavBar />
-                <AddModal addKid={this.addKid} clearForm={this.clearForm}/>
+                <AddModal addKid={this.addKid} clearForm={this.setForm.bind(this, 'add', '')}/>
                 <DeleteConfirmModal delete={this.deleteKid.bind(this)}/>
+                <EditModal edit={this.editKid.bind(this)}/>
                 <div className="row">
                     <div className="col-md-1"></div>
                     <div className="col-md-1">
@@ -168,7 +204,7 @@ class GridItem extends React.Component {
                 <td>{this.props.data.gender}</td>
                 <td>{this.props.data.school}</td>
                 <td>
-                    <span id="editIcon" className="glyphicon glyphicon-edit" onClick={this.props.edit}></span>&nbsp;&nbsp;
+                    <span id="editIcon" className="glyphicon glyphicon-edit" onClick={this.props.edit.bind(this, this.props.data)}></span>&nbsp;&nbsp;
                     <span id="deleteIcon" className="glyphicon glyphicon-trash" data-id={this.props.data._id} data-name={fullName} data-toggle="modal" data-target="#deleteConfirmModal"></span>
                 </td>
             </tr>
