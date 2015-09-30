@@ -9,9 +9,10 @@ class GridBox extends React.Component {
         super();
         this.state = {data: []}
         this.addKid = this.addKid.bind(this);
-        this.clearForm = this.clearForm.bind(this);
         this.deleteKid = this.deleteKid.bind(this);
+        this.editKid = this.editKid.bind(this);
         this.setForm = this.setForm.bind(this);
+        this.edit = this.edit.bind(this);
     }
 
     componentDidMount() {
@@ -20,6 +21,22 @@ class GridBox extends React.Component {
             this.setState({data: data});
         });
     }
+
+    setForm(prefix, item) {
+        let inputs = ['FirstName', 'LastName', 'Street', 'City', 'State', 'Zip', 'DateOfBirth', 'Gender', 'School'];
+        item = item || [];
+        _.forEach(inputs, input => {
+            if(input === 'Gender') {
+                if(!item.length){
+                    $('#' + prefix + 'Gender option:first').attr('selected','selected');
+                }
+            }
+            else{
+                $('#' + prefix + input).val(item[input]);
+            }
+        });
+    }
+
 
     deleteKid(event){
         let id = $(event.currentTarget).data('id');
@@ -43,16 +60,7 @@ class GridBox extends React.Component {
     }
 
     edit(item) {
-        $('#editId').val(item._id);
-        $('#editFirstName').val(item.firstname);
-        $('#editLastName').val(item.lastname);
-        $('#editStreet').val(item.street);
-        $('#editCity').val(item.city);
-        $('#editState').val(item.state);
-        $('#editZip').val(item.zip);
-        $('#editDateOfBirth').val(new Date(item.dateOfBirth).toLocaleDateString());
-        $('#editGender').val(item.gender);
-        $('#editSchool').val(item.school);
+        setForm('edit', item);
 
         $('#editModal').modal('show');
     }
@@ -75,33 +83,6 @@ class GridBox extends React.Component {
                 }
             });
         });
-    }
-
-    setForm(prefix, item) {
-        let inputs = ['FirstName', 'LastName', 'Street', 'City', 'State', 'Zip', 'DateOfBirth', 'Gender', 'School'];
-        item = item || [];
-        _.forEach(inputs, input => {
-            if(input === 'Gender') {
-                if(!item.length){
-                    $('#' + prefix + 'Gender option:first').attr('selected','selected');
-                }
-            }
-            else{
-                $('#' + prefix + input).val(item[input]);
-            }
-        });
-    }
-
-    clearForm() {
-        $('#firstName').val('');
-        $('#lastName').val('');
-        $('#street').val('');
-        $('#city').val('');
-        $('#state').val('');
-        $('#zip').val('');
-        $('#dateOfBirth').val('');
-        $("#gender option:first").attr('selected','selected');
-        $('#school').val('');
     }
 
     addKid() {
