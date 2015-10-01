@@ -11,3 +11,6 @@ journal/
 .DS_Store
 
 build/
+
+.idea/
+*.iml

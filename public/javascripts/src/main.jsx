@@ -12,6 +12,7 @@ class GridBox extends React.Component {
         this.deleteKid = this.deleteKid.bind(this);
         this.editKid = this.editKid.bind(this);
         this.setForm = this.setForm.bind(this);
+        this.getForm = this.getForm.bind(this);
         this.edit = this.edit.bind(this);
     }
 
@@ -23,18 +24,39 @@ class GridBox extends React.Component {
     }
 
     setForm(prefix, item) {
-        let inputs = ['FirstName', 'LastName', 'Street', 'City', 'State', 'Zip', 'DateOfBirth', 'Gender', 'School'];
+        let inputs = ['id', 'firstName', 'lastName', 'street', 'city', 'state', 'zip', 'dateOfBirth', 'gender', 'school'];
         item = item || [];
         _.forEach(inputs, input => {
-            if(input === 'Gender') {
+            if(input === 'id'){
+                $('#' + prefix + '-id').val(item['_id']);
+            }
+            if(input === 'gender') {
                 if(!item.length){
-                    $('#' + prefix + 'Gender option:first').attr('selected','selected');
+                    $('#' + prefix + '-gender option:first').attr('selected','selected');
+                }
+                else {
+                    $('#' + prefix + '-' + input).find('option[text="' + item[input] + '"]').val();
                 }
             }
+            if(input === 'dateOfBirth'){
+                $('#' + prefix + '-' + input).val(new Date(item[input]).toLocaleDateString());
+            }
             else{
-                $('#' + prefix + input).val(item[input]);
+                $('#' + prefix + '-' + input).val(item[input]);
             }
         });
+    }
+
+    getForm(prefix){
+        let inputs = ['id', 'firstName', 'lastName', 'street', 'city', 'state', 'zip', 'dateOfBirth', 'gender', 'school'];
+
+        let kid = {};
+
+        inputs.forEach(input => {
+            kid[input] = $('#' + prefix + '-' + input).val();
+        });
+
+        return kid;
     }
 
 
@@ -60,13 +82,14 @@ class GridBox extends React.Component {
     }
 
     edit(item) {
-        setForm('edit', item);
+        this.setForm('edit', item);
 
         $('#editModal').modal('show');
     }
 
     editKid() {
-        
+        var kid = this.getForm('edit');
+        console.log(kid);
     }
 
     getKids(done) {
@@ -86,18 +109,8 @@ class GridBox extends React.Component {
     }
 
     addKid() {
-        let kid = {
-            firstName : $('#firstName').val(),
-            lastName : $('#lastName').val(),
-            street : $('#street').val(),
-            city : $('#city').val(),
-            state : $('#state').val(),
-            zip : $('#zip').val(),
-            dateOfBirth : $('#dateOfBirth').val(),
-            gender: $('#gender').val(),
-            school : $('#school').val()
-        };
 
+        let kid = this.getForm('add');
         $.ajax({
             url: '/kids/add',
             dataType: 'json',
@@ -108,7 +121,7 @@ class GridBox extends React.Component {
                 oldState.push(data);
                 this.setState({data: oldState});
                 $('#addModal').modal('hide');
-                setForm('add');
+                this.setForm('add');
             }.bind(this),
             error: (xhr, status, err) => {
                 console.error('/kids/add', status, err.toString());
@@ -116,8 +129,8 @@ class GridBox extends React.Component {
         });
     }
 
-    render() {
-        return (
+    render(){
+        return(
             <div>
                 <NavBar />
                 <AddModal addKid={this.addKid} clearForm={this.setForm.bind(this, 'add', '')}/>
@@ -172,15 +185,15 @@ class GridList extends React.Component {
 
 class GridItem extends React.Component {
     render() {
-        var fullName = this.props.data.firstname + ' ' + this.props.data.lastname;
+        var fullName = this.props.data.firstName + ' ' + this.props.data.lastName;
         return(
             <tr>
-                <td>{this.props.data.firstname}</td>
-                <td>{this.props.data.lastname}</td>
-                <td>{this.props.data.username}</td>
+                <td>{this.props.data.firstName}</td>
+                <td>{this.props.data.lastName}</td>
+                <td>{this.props.data.userName}</td>
                 <td>{this.props.data.street}</td>
                 <td>{this.props.data.city}</td>
-                <td>{this.props.data.state}</td>
+                <td>{this.props.data.state.toUpperCase()}</td>
                 <td>{this.props.data.zip}</td>
                 <td>{this.props.data.gender}</td>
                 <td>{this.props.data.school}</td>

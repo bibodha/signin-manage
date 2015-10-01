@@ -12,40 +12,40 @@ export class AddModal extends React.Component {
                         <div className="modal-body">
                             <form>
                                 <div className="form-group">
-                                    <label htmlFor="addFirstName">First Name</label>
-                                    <input type="text" className="form-control" id="addFirstName" placeholder="First Name"/>
+                                    <label htmlFor="add-firstName">First Name</label>
+                                    <input type="text" className="form-control" id="add-firstName" placeholder="First Name"/>
                                 </div>
                                 <div className="form-group">
-                                    <label htmlFor="addLastName">Last Name</label>
-                                    <input type="text" className="form-control" id="addLastName" placeholder="Last Name"/>
+                                    <label htmlFor="add-lastName">Last Name</label>
+                                    <input type="text" className="form-control" id="add-lastName" placeholder="Last Name"/>
                                 </div>
                                 <div className="form-group">
-                                    <label htmlFor="addStreet">Street</label>
-                                    <input type="text" className="form-control" id="addStreet" placeholder="Street"/>
+                                    <label htmlFor="add-street">Street</label>
+                                    <input type="text" className="form-control" id="add-street" placeholder="Street"/>
                                 </div>
                                 <div className="form-group form-inline">
-                                    <label htmlFor="addCity">City</label>&nbsp;
-                                    <input type="text" className="form-control" id="addCity" size="30" placeholder="City"/>&nbsp;&nbsp;
-                                    <label htmlFor="addState">State</label>&nbsp;
-                                    <input type="text" className="form-control" maxLength="2" size="3" id="addState" />&nbsp;&nbsp;
-                                    <label htmlFor="addZip">Zip</label>&nbsp;
-                                    <input type="text" className="form-control" id="addZip" maxLength="5" size="5" placeholder="Zip"/>&nbsp;
+                                    <label htmlFor="add-city">City</label>&nbsp;
+                                    <input type="text" className="form-control" id="add-city" size="30" placeholder="City"/>&nbsp;&nbsp;
+                                    <label htmlFor="add-state">State</label>&nbsp;
+                                    <input type="text" className="form-control" maxLength="2" size="3" id="add-state" />&nbsp;&nbsp;
+                                    <label htmlFor="add-zip">Zip</label>&nbsp;
+                                    <input type="text" className="form-control" id="add-zip" maxLength="5" size="5" placeholder="Zip"/>&nbsp;
                                 </div>
                                 <div className="form-group">
-                                    <label htmlFor="addDateOfBirth">Date Of Birth</label>
-                                    <input type="text" className="form-control" id="addDateOfBirth" placeholder="Date Of Birth"/>
+                                    <label htmlFor="add-dateOfBirth">Date Of Birth</label>
+                                    <input type="text" className="form-control" id="add-dateOfBirth" placeholder="Date Of Birth"/>
                                 </div>
                                 <div className="form-group">
-                                    <label htmlFor="addGender">Gender</label>
-                                    <select id="addGender" className="form-control">
+                                    <label htmlFor="add-gender">Gender</label>
+                                    <select id="add-gender" className="form-control">
                                         <option>--</option>
                                         <option>Male</option>
                                         <option>Female</option>
                                     </select>
                                 </div>
                                 <div className="form-group">
-                                    <label htmlFor="addSchool">School</label>
-                                    <input type="text" className="form-control" id="addSchool" placeholder="School"/>
+                                    <label htmlFor="add-school">School</label>
+                                    <input type="text" className="form-control" id="add-school" placeholder="School"/>
                                 </div>
                             </form>
                         </div>
@@ -62,6 +62,13 @@ export class AddModal extends React.Component {
 
 export class EditModal extends React.Component {
     render() {
+        $('#editModal').on('show.bs.modal', event => {
+            let button = $(event.relatedTarget),
+                id = button.data('id');
+
+            $('#edit-id').html(id);
+            $('#edit-id').val(id);
+        });
         return (
             <div className="modal fade" id="editModal">
                 <div className="modal-dialog">
@@ -71,48 +78,48 @@ export class EditModal extends React.Component {
                         </div>
                         <div className="modal-body">
                             <form>
-                                <input type="hidden" id="editId" />
+                                <input type="hidden" id="edit-id" />
                                 <div className="form-group">
-                                    <label htmlFor="editFirstName">First Name</label>
-                                    <input type="text" className="form-control" id="editFirstName" placeholder="First Name" />
+                                    <label htmlFor="edit-firstName">First Name</label>
+                                    <input type="text" className="form-control" id="edit-firstName" placeholder="First Name" />
                                 </div>
                                 <div className="form-group">
-                                    <label htmlFor="editLastName">Last Name</label>
-                                    <input type="text" className="form-control" id="editLastName" placeholder="Last Name" />
+                                    <label htmlFor="edit-lastName">Last Name</label>
+                                    <input type="text" className="form-control" id="edit-lastName" placeholder="Last Name" />
                                 </div>
                                 <div className="form-group">
-                                    <label htmlFor="editStreet">Street</label>
-                                    <input type="text" className="form-control" id="editStreet" placeholder="Street" />
+                                    <label htmlFor="edit-street">Street</label>
+                                    <input type="text" className="form-control" id="edit-street" placeholder="Street" />
                                 </div>
                                 <div className="form-group form-inline">
-                                    <label htmlFor="editCity">City</label>&nbsp;
-                                    <input type="text" className="form-control" id="editCity" size="30" placeholder="City" />&nbsp;&nbsp;
-                                    <label htmlFor="editState">State</label>&nbsp;
+                                    <label htmlFor="edit-city">City</label>&nbsp;
+                                    <input type="text" className="form-control" id="edit-city" size="30" placeholder="City" />&nbsp;&nbsp;
+                                    <label htmlFor="edit-state">State</label>&nbsp;
                                     <input type="text" className="form-control" maxLength="2" size="3" id="editState" />&nbsp;&nbsp;
-                                    <label htmlFor="editZip">Zip</label>&nbsp;
-                                    <input type="text" className="form-control" id="editZip" maxLength="5" size="5" placeholder="Zip" />&nbsp;
+                                    <label htmlFor="edit-zip">Zip</label>&nbsp;
+                                    <input type="text" className="form-control" id="edit-zip" maxLength="5" size="5" placeholder="Zip" />&nbsp;
                                 </div>
                                 <div className="form-group">
-                                    <label htmlFor="editDateOfBirth">Date Of Birth</label>
-                                    <input type="text" className="form-control" id="editDateOfBirth" placeholder="Date Of Birth" />
+                                    <label htmlFor="edit-dateOfBirth">Date Of Birth</label>
+                                    <input type="text" className="form-control" id="edit-dateOfBirth" placeholder="Date Of Birth" />
                                 </div>
                                 <div className="form-group">
-                                    <label htmlFor="editGender">Gender</label>
-                                    <select id="editGender" className="form-control" >
+                                    <label htmlFor="edit-gender">Gender</label>
+                                    <select id="edit-gender" className="form-control" >
                                         <option>--</option>
                                         <option>Male</option>
                                         <option>Female</option>
                                     </select>
                                 </div>
                                 <div className="form-group">
-                                    <label htmlFor="editSchool">School</label>
-                                    <input type="text" className="form-control" id="editSchool" placeholder="School" />
+                                    <label htmlFor="edit-school">School</label>
+                                    <input type="text" className="form-control" id="edit-school" placeholder="School" />
                                 </div>
                             </form>
                         </div>
                         <div className="modal-footer">
                             <button type="button" onClick={this.props.clearForm} className="btn btn-default" data-dismiss="modal">Close</button>
-                            <button type="button" onClick={this.props.editKid} className="btn btn-primary">Save changes</button>
+                            <button type="button" onClick={this.props.edit} className="btn btn-primary">Save changes</button>
                         </div>
                     </div>
                 </div>

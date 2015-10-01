@@ -1,9 +1,9 @@
 var mongoose = require('mongoose');
 
 var kidSchema = mongoose.Schema({
-    firstname: String,
-    lastname: String,
-    username: String,
+    firstName: String,
+    lastName: String,
+    userName: String,
     street: String,
     city: String,
     state: String,

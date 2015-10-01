@@ -7,8 +7,8 @@ var _ = require('lodash');
 
 var createKidObject = function(item){
     var kid = new Kid({
-        firstname : item.firstName,
-        lastname : item.lastName,
+        firstName : item.firstName,
+        lastName : item.lastName,
         street : item.street,
         city : item.city,
         state : item.state,
@@ -50,26 +50,26 @@ router.post('/add', (req, res, next) => {
     var item = req.body;
     var kid = createKidObject(item);
     var promise = new Promise((resolve, reject) => {
-        Kid.find({'firstname': kid.firstname, 'lastname': kid.lastname}, (err, children) => {
+        Kid.find({'firstName': kid.firstName, 'lastName': kid.lastName}, (err, children) => {
             if(err){
                 reject();
             }
             if(!children.length){
-                kid.username = kid.firstname + ' ' + kid.lastname;
+                kid.userName = kid.firstName + ' ' + kid.lastName;
             }
             else {
                 var child = _.last(children);
-                var usernameSplit = child.username.split(' ');
+                var userNameSplit = child.userName.split(' ');
                 var num;
 
-                if(usernameSplit.length > 2){
-                    num = parseInt(usernameSplit[2]);
+                if(userNameSplit.length > 2){
+                    num = parseInt(userNameSplit[2]);
                     num++;
                 }
                 else {
                     num = 1;
                 }
-                kid.username = child.firstname + ' ' + child.lastname + ' ' + num;
+                kid.userName = child.firstName + ' ' + child.lastName + ' ' + num;
             }
             resolve()
         });
