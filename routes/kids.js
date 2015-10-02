@@ -7,6 +7,7 @@ var _ = require('lodash');
 
 var createKidObject = function(item){
     var kid = new Kid({
+        _id: item._id,
         firstName : item.firstName,
         lastName : item.lastName,
         street : item.street,
@@ -47,8 +48,8 @@ router.post('/delete', (req, res, next) => {
 });
 
 router.post('/add', (req, res, next) => {
-    var item = req.body;
-    var kid = createKidObject(item);
+    var item = req.body,
+        kid = createKidObject(item);
     var promise = new Promise((resolve, reject) => {
         Kid.find({'firstName': kid.firstName, 'lastName': kid.lastName}, (err, children) => {
             if(err){
@@ -84,6 +85,24 @@ router.post('/add', (req, res, next) => {
             res.send(kid);
         });
     })
+});
+
+router.post('/edit', (req, res, next) => {
+    var item = req.body,
+        kid = createKidObject(item);
+
+    var updatedKid = kid.toObject();
+
+    delete updatedKid._id;
+
+    Kid.update({_id: kid.id}, updatedKid, {upsert: true}, err => {
+        if(err){
+          console.log(err);
+        }
+        res.send(true);
+    });
+
+
 });
 
 module.exports = router;

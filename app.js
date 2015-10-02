@@ -11,6 +11,7 @@ var session = require('express-session');
 
 var routes = require('./routes/index');
 var kids = require('./routes/kids');
+var report = require('./routes/report');
 
 var app = express();
 
@@ -43,6 +44,7 @@ app.use(flash());
 
 app.use('/', routes);
 app.use('/kids', kids);
+app.use('/report', report);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

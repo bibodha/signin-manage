@@ -24,21 +24,21 @@ class GridBox extends React.Component {
     }
 
     setForm(prefix, item) {
-        let inputs = ['id', 'firstName', 'lastName', 'street', 'city', 'state', 'zip', 'dateOfBirth', 'gender', 'school'];
+        let inputs = ['id', 'firstName', 'lastName', 'userName', 'street', 'city', 'state', 'zip', 'dateOfBirth', 'gender', 'school'];
         item = item || [];
         _.forEach(inputs, input => {
             if(input === 'id'){
                 $('#' + prefix + '-id').val(item['_id']);
             }
-            if(input === 'gender') {
-                if(!item.length){
+            else if(input === 'gender') {
+                if(!item){
                     $('#' + prefix + '-gender option:first').attr('selected','selected');
                 }
                 else {
-                    $('#' + prefix + '-' + input).find('option[text="' + item[input] + '"]').val();
+                    $('#' + prefix + '-gender option:contains(' + item[input] + ')').attr('selected', true);
                 }
             }
-            if(input === 'dateOfBirth'){
+            else if(input === 'dateOfBirth'){
                 $('#' + prefix + '-' + input).val(new Date(item[input]).toLocaleDateString());
             }
             else{
@@ -48,11 +48,14 @@ class GridBox extends React.Component {
     }
 
     getForm(prefix){
-        let inputs = ['id', 'firstName', 'lastName', 'street', 'city', 'state', 'zip', 'dateOfBirth', 'gender', 'school'];
+        let inputs = ['id', 'firstName', 'lastName', 'userName', 'street', 'city', 'state', 'zip', 'dateOfBirth', 'gender', 'school'];
 
         let kid = {};
 
         inputs.forEach(input => {
+            if(input === 'id'){
+                kid['_id'] = $('#' + prefix + '-' + input).val();
+            }
             kid[input] = $('#' + prefix + '-' + input).val();
         });
 
@@ -89,7 +92,26 @@ class GridBox extends React.Component {
 
     editKid() {
         var kid = this.getForm('edit');
-        console.log(kid);
+        $.ajax({
+            url: '/kids/edit',
+            dataType: 'json',
+            data: kid,
+            type: 'POST',
+            success: () => {
+                var newState = _.map(this.state.data, item => {
+                    if(item._id === kid._id){
+                        return kid;
+                    }
+                    else{
+                        return item;
+                    }
+                });
+                this.setState({data: newState});
+            },
+            error: (xhr, status, err) => {
+                console.error('/kids/edit', status, err.toString());
+            }
+        });
     }
 
     getKids(done) {
@@ -146,7 +168,7 @@ class GridBox extends React.Component {
                     </div>
                     <div className="col-md-2"></div>
                 </div>
-                <GridList kids={this.state.data} edit={this.edit} delete={this.deleteKid.bind(this)}/>
+                <GridList kids={this.state.data} edit={this.edit} editKid={this.editKid} delete={this.deleteKid.bind(this)}/>
             </div>
         );
     }
@@ -156,7 +178,7 @@ class GridList extends React.Component {
     render() {
         let items = this.props.kids.map(kid=> {
             return (
-                <GridItem edit={this.props.edit} data={kid} key={kid._id} />
+                <GridItem edit={this.props.edit} editKid={this.props.editKid} data={kid} key={kid._id} />
             );
         });
         return (
@@ -166,6 +188,7 @@ class GridList extends React.Component {
                         <th>First Name</th>
                         <th>Last Name</th>
                         <th>Username</th>
+                        <th>Date Of Birth</th>
                         <th>Street</th>
                         <th>City</th>
                         <th>State</th>
@@ -191,6 +214,7 @@ class GridItem extends React.Component {
                 <td>{this.props.data.firstName}</td>
                 <td>{this.props.data.lastName}</td>
                 <td>{this.props.data.userName}</td>
+                <td>{new Date(this.props.data.dateOfBirth).toLocaleDateString()}</td>
                 <td>{this.props.data.street}</td>
                 <td>{this.props.data.city}</td>
                 <td>{this.props.data.state.toUpperCase()}</td>
@@ -198,7 +222,7 @@ class GridItem extends React.Component {
                 <td>{this.props.data.gender}</td>
                 <td>{this.props.data.school}</td>
                 <td>
-                    <span id="editIcon" className="glyphicon glyphicon-edit" onClick={this.props.edit.bind(this, this.props.data)}></span>&nbsp;&nbsp;
+                    <span id="editIcon" className="glyphicon glyphicon-edit" data-id={this.props.data._id} edit={this.props.editKid.bind(this)} onClick={this.props.edit.bind(this, this.props.data)}></span>&nbsp;&nbsp;
                     <span id="deleteIcon" className="glyphicon glyphicon-trash" data-id={this.props.data._id} data-name={fullName} data-toggle="modal" data-target="#deleteConfirmModal"></span>
                 </td>
             </tr>

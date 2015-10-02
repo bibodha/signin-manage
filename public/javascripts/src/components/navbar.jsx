@@ -18,7 +18,7 @@ class NavBar extends React.Component {
                    <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                        <ul className="nav navbar-nav">
                            <li className="active"><a href="#">Kids<span className="sr-only">(current)</span></a></li>
-                           <li><a href="#">Report</a></li>
+                           <li><a href="/report">Report</a></li>
                        </ul>
                        <ul className="nav navbar-nav navbar-right">
                            <li className="dropdown">

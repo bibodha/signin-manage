@@ -62,13 +62,6 @@ export class AddModal extends React.Component {
 
 export class EditModal extends React.Component {
     render() {
-        $('#editModal').on('show.bs.modal', event => {
-            let button = $(event.relatedTarget),
-                id = button.data('id');
-
-            $('#edit-id').html(id);
-            $('#edit-id').val(id);
-        });
         return (
             <div className="modal fade" id="editModal">
                 <div className="modal-dialog">
@@ -88,6 +81,10 @@ export class EditModal extends React.Component {
                                     <input type="text" className="form-control" id="edit-lastName" placeholder="Last Name" />
                                 </div>
                                 <div className="form-group">
+                                    <label htmlFor="edit-userName">Last Name</label>
+                                    <input type="text" className="form-control" id="edit-userName" placeholder="Username" />
+                                </div>
+                                <div className="form-group">
                                     <label htmlFor="edit-street">Street</label>
                                     <input type="text" className="form-control" id="edit-street" placeholder="Street" />
                                 </div>
@@ -95,7 +92,7 @@ export class EditModal extends React.Component {
                                     <label htmlFor="edit-city">City</label>&nbsp;
                                     <input type="text" className="form-control" id="edit-city" size="30" placeholder="City" />&nbsp;&nbsp;
                                     <label htmlFor="edit-state">State</label>&nbsp;
-                                    <input type="text" className="form-control" maxLength="2" size="3" id="editState" />&nbsp;&nbsp;
+                                    <input type="text" className="form-control" maxLength="2" size="3" id="edit-state" />&nbsp;&nbsp;
                                     <label htmlFor="edit-zip">Zip</label>&nbsp;
                                     <input type="text" className="form-control" id="edit-zip" maxLength="5" size="5" placeholder="Zip" />&nbsp;
                                 </div>
@@ -119,7 +116,7 @@ export class EditModal extends React.Component {
                         </div>
                         <div className="modal-footer">
                             <button type="button" onClick={this.props.clearForm} className="btn btn-default" data-dismiss="modal">Close</button>
-                            <button type="button" onClick={this.props.edit} className="btn btn-primary">Save changes</button>
+                            <button type="button" onClick={this.props.edit} className="btn btn-primary" data-dismiss="modal">Save changes</button>
                         </div>
                     </div>
                 </div>
